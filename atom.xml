@@ -1,16 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[NSLog("亚庆的 Blog");]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2013-12-24T15:41:23-08:00</updated>
+  <updated>2013-12-24T16:04:59-08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[王亚庆]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 开发设计模式笔记（1）]]></title>
+    <link href="http://billwang1990.github.io/blog/2013/12/24/1st-blog/"/>
+    <updated>2013-12-24T15:52:44-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/24/1st-blog</id>
+    <content type="html"><![CDATA[<p>1.Prototype 原型模式</p>
+
+<pre><code>定义：使用原型实例指定创建对象的种类，并通过复制这个原型创建新的对象。（《设计模式》1994）
+
+ 一般在初始化信息不发生变化的情况下，克隆是最好的办法。这既可以隐藏对象创建的细节，又对性能是大大的提升。
+
+ 适用情景：
+ 需要创建的对象应独立于其类型与创建方式。
+ 要实例化的类是运行时决定的。
+ 不想要与产品层次相对应的工厂层次。
+ 不同类的实例间的差异仅是状态的若干组合。因此复制相应数量的原型比手工实例化更加方便。
+ 类不容易创建，比如每个组件可把其他组件作为子节点的组合对象。复制已有的组合对象并对副本进行修改会更加容易。
+</code></pre>
+
+<p>2.工厂方法模式</p>
+
+<pre><code> 工厂方法也称为虚构造器。它适用于这种情况：一个类无法预期需要生成哪个类的对象，想让其子类来指定所生成的对象。
+
+ 定义：定义创建对对象的接口，让子类决定实例化哪一个类，工厂方法使得一个类的实例化延迟到子类。
+
+ 适用情形：
+ 编译时无法准确预期要创建的对象的类。
+ 类想让其子类决定在运行时创建什么
+ 类由若干辅助类为其子类，而你想将返回哪个子类这一信息局部化
+</code></pre>
+
+<p>3.抽象工厂</p>
+
+<pre><code>定义：提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。
+ 软件设计黄金法则：变动需要抽象。
+ 比如，如果APP要支持更换皮肤，可以设计成抽象工厂。
+</code></pre>
+]]></content>
+  </entry>
   
 </feed>
