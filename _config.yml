@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://billwang1990.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: 亚庆的 Blog
+subtitle: NSLog(@"About life, about knowledge, about happiness!");
+author: 王亚庆	
 simple_search: http://google.com/search
 description:
 
@@ -70,7 +70,7 @@ github_skip_forks: true
 
 # Twitter
 twitter_user:
-twitter_tweet_button: true
+#twitter_tweet_button: true
 
 # Google +1
 google_plus_one: false
@@ -90,8 +90,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name:yaqingblog
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
