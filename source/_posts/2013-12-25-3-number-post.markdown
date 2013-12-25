@@ -11,6 +11,7 @@ categories:
 系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！
 
 因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了：
+<!—more—>
 
 Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用rvm install 1.9.3安装ruby。 然后照Octopress官方安装教程[http://octopress.org/docs/setup/]配置。
 
