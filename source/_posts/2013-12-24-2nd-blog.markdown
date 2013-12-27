@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-这篇是接着[上一篇](http://billwang1990.github.io/blog/2013/12/24/1st-blog)
+这篇是接着[上一篇](http://billwang1990.github.io/blog/2013/12/25/1st-blog/)
 
 ####4.生成器模式
      定义：
