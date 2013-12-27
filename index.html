@@ -7,8 +7,7 @@
 	<meta name="author" content="王亚庆">
 
 	
-	<meta name="description" content="不多说，直接上正题。
-系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！ 因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了： Octopress要求ruby的版本不低于 1.9.3， &hellip;">
+	<meta name="description" content="8.外观模式 定义：为系统中的一组接口提供一个统一的接口，外观定义一个高层接口，让子系统更易于使用。 适用情形： 子系统正逐渐变得复杂。应用模式的过程中演化出很多类。可以适用外观为这些子系统提供一个比较简单的接口。 可以使用外观对子系统进行分层。每个子系统级别由一个外观作为入口点。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,7 +79,54 @@
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/2013/12/25/3-number-post/">
+		<a href="/blog/2013/12/27/12-dot-27/">
+		
+			12.27</a>
+	</h2>
+	<div class="entry-content">
+		<p><strong>8.外观模式</strong></p>
+
+<pre><code> 定义：为系统中的一组接口提供一个统一的接口，外观定义一个高层接口，让子系统更易于使用。
+
+ 适用情形：
+ 子系统正逐渐变得复杂。应用模式的过程中演化出很多类。可以适用外观为这些子系统提供一个比较简单的接口。
+ 可以使用外观对子系统进行分层。每个子系统级别由一个外观作为入口点。让他们通过其外观进行通信，可以简化它们的依赖关系。
+</code></pre>
+
+
+		
+		<a href="/blog/2013/12/27/12-dot-27/" class="more-link">Read on &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-27T21:16:21+08:00" pubdate data-updated="true">Dec 27<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/12/27/12-dot-27/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/26/3-number-post/">
 		
 			MAC下安装Octopress，Cocoapods关于ruby版本的问题</a>
 	</h2>
@@ -92,16 +138,9 @@
 
 <p>Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用 <strong>rvm install 1.9.3</strong> 安装ruby。 然后照<a href="http://octopress.org/docs/setup/">Octopress官方安装教程</a>配置。</p>
 
-<p>OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 <strong>$sudo gem install cocoapods</strong> 安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.</p>
-
-<p>找了很多解决办法，比如重新安装xcode command line tools，使用xcode-selelct等等，都不起作用。好吧，最后还是去cocoapods看看，开发者强烈建议使用Mac自带的ruby来安装cocoapods。</p>
-
-<p>好吧，最后我妥协了，将默认的ruby还原为系统自带的ruby，这个时候再来安装cocoapods，一切正常. 然后只是将octopress的工作目录使用rvm配置为使用1.9.3的ruby，也就是说使用了两个版本的ruby。</p>
-
-<p>方法虽然看起来是土了一点，但是简单粗暴有效！</p>
 
 		
-		
+		<a href="/blog/2013/12/26/3-number-post/" class="more-link">Read on &rarr;</a>
 	</div>
 
 
@@ -118,12 +157,12 @@
   
 
 
-<time datetime="2013-12-25T14:01:54-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time></div>
+<time datetime="2013-12-26T06:01:54+08:00" pubdate data-updated="true">Dec 26<span>th</span>, 2013</time></div>
 	<div class="tags">
 
 </div>
 	
-	<div class="comments"><a href="/blog/2013/12/25/3-number-post/#disqus_thread">Comments</a></div>
+	<div class="comments"><a href="/blog/2013/12/26/3-number-post/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>
@@ -132,12 +171,14 @@
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/2013/12/24/2nd-blog/">
+		<a href="/blog/2013/12/25/2nd-blog/">
 		
 			iOS 开发设计模式笔记（2）</a>
 	</h2>
 	<div class="entry-content">
-		<h4>4.生成器模式</h4>
+		<p>这篇是接着<a href="http://billwang1990.github.io/blog/2013/12/24/1st-blog">上一篇</a></p>
+
+<h4>4.生成器模式</h4>
 
 <pre><code> 定义：
  将一个复杂对象的构建与它的表现分离，使得同样的构建过程可以创建不同的表现。
@@ -147,41 +188,9 @@
  将做什么 和 怎么做 两个问题分开解决。
 </code></pre>
 
-<h4>5.单例模式</h4>
-
-<pre><code> 定义:保证一个类仅有一个实例，并且提供一个访问它的全局访问点。
- 适用情形:
- 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问，比如工厂方法。
- 这个唯一的实例只能通过子类化进行扩展，而且扩展的对象不会破坏客户端代码。
-</code></pre>
-
-<h4>6.适配器模式</h4>
-
-<pre><code> 适配器模式，用于连接两种不同种类的对象，使其毫无问题地协同工作，有时它也称为包装起"wrapper"。
- 基本上有两种实现适配器的方式:
- 1.通过集成来适配来适配两个接口，这种称为类适配器，多通过多重继承来实现，但是OBJ-C没有多重继承，可以通过协议来实现。
- 2.对象适配器。与类适配器不同，对象适配器不继承被适配者，而是组合一个对它的引用。
- 定义：
- 将一个类的接口转换成客户希望的另一个接口，适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
- 适用情形：
- 已有的类的接口和需求不匹配。
- 想要一个可复用的类，该类能够同可能带有不兼容接口的其它类协作。
- 需要适配一个类的几个不同子类，可是让每一个子类去子类化一个类适配器又不现实。那么可以通过使用对象适配器（也叫委托）来适配其父类的接口。
-</code></pre>
-
-<h4>7.桥接模式</h4>
-
-<pre><code> 定义：将抽象部分与它的实现部分分离，使它们都可以独立的变化。
- 适用情形：
- 不想在抽象与其实现之间实现固定的绑定关系。
- 抽象及其实现都应该可以通过子类化独立进行扩展。
- 对抽象的实现进行修改不应该影响客户端的代码。
- 如果每个实现需要额外的子类以细化抽象，择说明有必要把他们分成两个部分。
- 想在带有不同抽象接口的多个对象之间共享一个实现。
-</code></pre>
 
 		
-		
+		<a href="/blog/2013/12/25/2nd-blog/" class="more-link">Read on &rarr;</a>
 	</div>
 
 
@@ -198,12 +207,12 @@
   
 
 
-<time datetime="2013-12-24T16:36:33-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time></div>
+<time datetime="2013-12-25T08:36:33+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time></div>
 	<div class="tags">
 
 </div>
 	
-	<div class="comments"><a href="/blog/2013/12/24/2nd-blog/#disqus_thread">Comments</a></div>
+	<div class="comments"><a href="/blog/2013/12/25/2nd-blog/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>
@@ -212,7 +221,7 @@
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/2013/12/24/1st-blog/">
+		<a href="/blog/2013/12/25/1st-blog/">
 		
 			iOS 开发设计模式笔记（1）</a>
 	</h2>
@@ -222,34 +231,11 @@
 <h4>1.Prototype 原型模式</h4>
 
 <pre><code>定义：使用原型实例指定创建对象的种类，并通过复制这个原型创建新的对象。（《设计模式》1994）
- 一般在初始化信息不发生变化的情况下，克隆是最好的办法。这既可以隐藏对象创建的细节，又对性能是大大的提升。
- 适用情景：
- 需要创建的对象应独立于其类型与创建方式。
- 要实例化的类是运行时决定的。
- 不想要与产品层次相对应的工厂层次。
- 不同类的实例间的差异仅是状态的若干组合。因此复制相应数量的原型比手工实例化更加方便。
- 类不容易创建，比如每个组件可把其他组件作为子节点的组合对象。复制已有的组合对象并对副本进行修改会更加容易。
 </code></pre>
 
-<h4>2.工厂方法模式</h4>
-
-<pre><code> 工厂方法也称为虚构造器。它适用于这种情况：一个类无法预期需要生成哪个类的对象，想让其子类来指定所生成的对象。
- 定义：定义创建对对象的接口，让子类决定实例化哪一个类，工厂方法使得一个类的实例化延迟到子类。
- 适用情形：
- 编译时无法准确预期要创建的对象的类。
- 类想让其子类决定在运行时创建什么
- 类由若干辅助类为其子类，而你想将返回哪个子类这一信息局部化
-</code></pre>
-
-<h4>3.抽象工厂</h4>
-
-<pre><code>定义：提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。
- 软件设计黄金法则：变动需要抽象。
- 比如，如果APP要支持更换皮肤，可以设计成抽象工厂。
-</code></pre>
 
 		
-		
+		<a href="/blog/2013/12/25/1st-blog/" class="more-link">Read on &rarr;</a>
 	</div>
 
 
@@ -266,12 +252,12 @@
   
 
 
-<time datetime="2013-12-24T15:52:44-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time></div>
+<time datetime="2013-12-25T07:52:44+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time></div>
 	<div class="tags">
 
 </div>
 	
-	<div class="comments"><a href="/blog/2013/12/24/1st-blog/#disqus_thread">Comments</a></div>
+	<div class="comments"><a href="/blog/2013/12/25/1st-blog/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>
