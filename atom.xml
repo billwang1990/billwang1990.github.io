@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2013-12-25T14:44:33-08:00</updated>
+  <updated>2013-12-27T15:09:45-08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -23,9 +23,9 @@
 
 <p>因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了：</p>
 
-<p>Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用rvm install 1.9.3安装ruby。 然后照Octopress官方安装教程[<a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a>]配置。</p>
+<p>Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用 <strong>rvm install 1.9.3</strong> 安装ruby。 然后照<a href="http://octopress.org/docs/setup/">Octopress官方安装教程</a>配置。</p>
 
-<p>OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 $sudo gem install cocoapods安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.</p>
+<p>OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 <strong>$sudo gem install cocoapods</strong> 安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.</p>
 
 <p>找了很多解决办法，比如重新安装xcode command line tools，使用xcode-selelct等等，都不起作用。好吧，最后还是去cocoapods看看，开发者强烈建议使用Mac自带的ruby来安装cocoapods。</p>
 
@@ -40,7 +40,7 @@
     <link href="http://billwang1990.github.io/blog/2013/12/24/2nd-blog/"/>
     <updated>2013-12-24T16:36:33-08:00</updated>
     <id>http://billwang1990.github.io/blog/2013/12/24/2nd-blog</id>
-    <content type="html"><![CDATA[<p>4.生成器模式</p>
+    <content type="html"><![CDATA[<h4>4.生成器模式</h4>
 
 <pre><code> 定义：
  将一个复杂对象的构建与它的表现分离，使得同样的构建过程可以创建不同的表现。
@@ -50,7 +50,7 @@
  将做什么 和 怎么做 两个问题分开解决。
 </code></pre>
 
-<p>5.单例模式</p>
+<h4>5.单例模式</h4>
 
 <pre><code> 定义:保证一个类仅有一个实例，并且提供一个访问它的全局访问点。
  适用情形:
@@ -58,7 +58,7 @@
  这个唯一的实例只能通过子类化进行扩展，而且扩展的对象不会破坏客户端代码。
 </code></pre>
 
-<p>6.适配器模式</p>
+<h4>6.适配器模式</h4>
 
 <pre><code> 适配器模式，用于连接两种不同种类的对象，使其毫无问题地协同工作，有时它也称为包装起"wrapper"。
  基本上有两种实现适配器的方式:
@@ -72,7 +72,7 @@
  需要适配一个类的几个不同子类，可是让每一个子类去子类化一个类适配器又不现实。那么可以通过使用对象适配器（也叫委托）来适配其父类的接口。
 </code></pre>
 
-<p>7.桥接模式</p>
+<h4>7.桥接模式</h4>
 
 <pre><code> 定义：将抽象部分与它的实现部分分离，使它们都可以独立的变化。
  适用情形：
@@ -92,8 +92,7 @@
     <id>http://billwang1990.github.io/blog/2013/12/24/1st-blog</id>
     <content type="html"><![CDATA[<h4>读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记:</h4>
 
-
-<p>1.Prototype 原型模式</p>
+<h4>1.Prototype 原型模式</h4>
 
 <pre><code>定义：使用原型实例指定创建对象的种类，并通过复制这个原型创建新的对象。（《设计模式》1994）
  一般在初始化信息不发生变化的情况下，克隆是最好的办法。这既可以隐藏对象创建的细节，又对性能是大大的提升。
@@ -105,7 +104,7 @@
  类不容易创建，比如每个组件可把其他组件作为子节点的组合对象。复制已有的组合对象并对副本进行修改会更加容易。
 </code></pre>
 
-<p>2.工厂方法模式</p>
+<h4>2.工厂方法模式</h4>
 
 <pre><code> 工厂方法也称为虚构造器。它适用于这种情况：一个类无法预期需要生成哪个类的对象，想让其子类来指定所生成的对象。
  定义：定义创建对对象的接口，让子类决定实例化哪一个类，工厂方法使得一个类的实例化延迟到子类。
@@ -115,7 +114,7 @@
  类由若干辅助类为其子类，而你想将返回哪个子类这一信息局部化
 </code></pre>
 
-<p>3.抽象工厂</p>
+<h4>3.抽象工厂</h4>
 
 <pre><code>定义：提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。
  软件设计黄金法则：变动需要抽象。

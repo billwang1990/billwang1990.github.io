@@ -1,156 +1,143 @@
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>亚庆的 Blog</title>
-  <meta name="author" content="王亚庆">
+	<meta charset="utf-8">
+	<title>亚庆的 Blog</title>
+	<meta name="author" content="王亚庆">
 
-  
-  <meta name="description" content="不多说，直接上正题。
+	
+	<meta name="description" content="不多说，直接上正题。
 系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！ 因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了： Octopress要求ruby的版本不低于 1.9.3， &hellip;">
-  
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://billwang1990.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="亚庆的 Blog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
+	<link href="/atom.xml" rel="alternate" title="亚庆的 Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">亚庆的 Blog</a></h1>
-  
-    <h2>NSLog(@"About life, about knowledge, about happiness!");</h2>
-  
-</hgroup>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">亚庆的 Blog</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">首页</a></li>
+	<li><a href="/blog/archives">归档</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">首页</a></li>
+	<li><a href="/blog/archives">归档</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:billwang1990.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:billwang1990.github.io">
+	</form>
+</nav>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:billwang1990.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">首页</a></li>
-  <li><a href="/blog/archives">归档</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/25/3-number-post/">MAC下安装Octopress，Cocoapods关于ruby版本的问题</a></h1>
-    
-    
-      <p class="meta">
-        
+	
+		
+	
+	<div id="content" class="inner">
 
 
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-25T14:01:54-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/12/25/3-number-post/#disqus_thread"
-             data-disqus-identifier="http://billwang1990.github.io/blog/2013/12/25/3-number-post/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>不多说，直接上正题。
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/25/3-number-post/">
+		
+			MAC下安装Octopress，Cocoapods关于ruby版本的问题</a>
+	</h2>
+	<div class="entry-content">
+		<p>不多说，直接上正题。
 系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！</p>
 
 <p>因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了：</p>
 
-<p>Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用rvm install 1.9.3安装ruby。 然后照Octopress官方安装教程[<a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a>]配置。</p>
+<p>Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用 <strong>rvm install 1.9.3</strong> 安装ruby。 然后照<a href="http://octopress.org/docs/setup/">Octopress官方安装教程</a>配置。</p>
 
-<p>OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 $sudo gem install cocoapods安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.</p>
+<p>OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 <strong>$sudo gem install cocoapods</strong> 安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.</p>
 
 <p>找了很多解决办法，比如重新安装xcode command line tools，使用xcode-selelct等等，都不起作用。好吧，最后还是去cocoapods看看，开发者强烈建议使用Mac自带的ruby来安装cocoapods。</p>
 
 <p>好吧，最后我妥协了，将默认的ruby还原为系统自带的ruby，这个时候再来安装cocoapods，一切正常. 然后只是将octopress的工作目录使用rvm配置为使用1.9.3的ruby，也就是说使用了两个版本的ruby。</p>
 
 <p>方法虽然看起来是土了一点，但是简单粗暴有效！</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-25T14:01:54-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time></div>
+	<div class="tags">
+
 </div>
-  
-  
+	
+	<div class="comments"><a href="/blog/2013/12/25/3-number-post/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/24/2nd-blog/">iOS 开发设计模式笔记（2）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-24T16:36:33-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/12/24/2nd-blog/#disqus_thread"
-             data-disqus-identifier="http://billwang1990.github.io/blog/2013/12/24/2nd-blog/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>4.生成器模式</p>
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/24/2nd-blog/">
+		
+			iOS 开发设计模式笔记（2）</a>
+	</h2>
+	<div class="entry-content">
+		<h4>4.生成器模式</h4>
 
 <pre><code> 定义：
  将一个复杂对象的构建与它的表现分离，使得同样的构建过程可以创建不同的表现。
@@ -160,7 +147,7 @@
  将做什么 和 怎么做 两个问题分开解决。
 </code></pre>
 
-<p>5.单例模式</p>
+<h4>5.单例模式</h4>
 
 <pre><code> 定义:保证一个类仅有一个实例，并且提供一个访问它的全局访问点。
  适用情形:
@@ -168,7 +155,7 @@
  这个唯一的实例只能通过子类化进行扩展，而且扩展的对象不会破坏客户端代码。
 </code></pre>
 
-<p>6.适配器模式</p>
+<h4>6.适配器模式</h4>
 
 <pre><code> 适配器模式，用于连接两种不同种类的对象，使其毫无问题地协同工作，有时它也称为包装起"wrapper"。
  基本上有两种实现适配器的方式:
@@ -182,7 +169,7 @@
  需要适配一个类的几个不同子类，可是让每一个子类去子类化一个类适配器又不现实。那么可以通过使用对象适配器（也叫委托）来适配其父类的接口。
 </code></pre>
 
-<p>7.桥接模式</p>
+<h4>7.桥接模式</h4>
 
 <pre><code> 定义：将抽象部分与它的实现部分分离，使它们都可以独立的变化。
  适用情形：
@@ -192,48 +179,47 @@
  如果每个实现需要额外的子类以细化抽象，择说明有必要把他们分成两个部分。
  想在带有不同抽象接口的多个对象之间共享一个实现。
 </code></pre>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-24T16:36:33-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time></div>
+	<div class="tags">
+
 </div>
-  
-  
+	
+	<div class="comments"><a href="/blog/2013/12/24/2nd-blog/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/24/1st-blog/">iOS 开发设计模式笔记（1）</a></h1>
-    
-    
-      <p class="meta">
-        
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/24/1st-blog/">
+		
+			iOS 开发设计模式笔记（1）</a>
+	</h2>
+	<div class="entry-content">
+		<h4>读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记:</h4>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-24T15:52:44-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/12/24/1st-blog/#disqus_thread"
-             data-disqus-identifier="http://billwang1990.github.io/blog/2013/12/24/1st-blog/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记:</h4>
-
-
-<p>1.Prototype 原型模式</p>
+<h4>1.Prototype 原型模式</h4>
 
 <pre><code>定义：使用原型实例指定创建对象的种类，并通过复制这个原型创建新的对象。（《设计模式》1994）
  一般在初始化信息不发生变化的情况下，克隆是最好的办法。这既可以隐藏对象创建的细节，又对性能是大大的提升。
@@ -245,7 +231,7 @@
  类不容易创建，比如每个组件可把其他组件作为子节点的组合对象。复制已有的组合对象并对副本进行修改会更加容易。
 </code></pre>
 
-<p>2.工厂方法模式</p>
+<h4>2.工厂方法模式</h4>
 
 <pre><code> 工厂方法也称为虚构造器。它适用于这种情况：一个类无法预期需要生成哪个类的对象，想让其子类来指定所生成的对象。
  定义：定义创建对对象的接口，让子类决定实例化哪一个类，工厂方法使得一个类的实例化延迟到子类。
@@ -255,62 +241,59 @@
  类由若干辅助类为其子类，而你想将返回哪个子类这一信息局部化
 </code></pre>
 
-<p>3.抽象工厂</p>
+<h4>3.抽象工厂</h4>
 
 <pre><code>定义：提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。
  软件设计黄金法则：变动需要抽象。
  比如，如果APP要支持更换皮肤，可以设计成抽象工厂。
 </code></pre>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-24T15:52:44-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2013</time></div>
+	<div class="tags">
+
 </div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+	
+	<div class="comments"><a href="/blog/2013/12/24/1st-blog/#disqus_thread">Comments</a></div>
+	
 </div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+</article>
+
+<nav id="pagenavi">
     
-      <li class="post">
-        <a href="/blog/2013/12/25/3-number-post/">MAC下安装Octopress，Cocoapods关于ruby版本的问题</a>
-      </li>
     
-      <li class="post">
-        <a href="/blog/2013/12/24/2nd-blog/">iOS 开发设计模式笔记（2）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/24/1st-blog/">iOS 开发设计模式笔记（1）</a>
-      </li>
-    
-  </ul>
-</section>
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
 
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - 王亚庆 -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    王亚庆
 
 </footer>
-  
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
 
 <script type="text/javascript">
       var disqus_shortname = 'yaqingblog';
@@ -320,16 +303,10 @@
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//go.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
-
-
-
-
-
-
 
 
 
