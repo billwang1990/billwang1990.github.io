@@ -11,11 +11,10 @@ categories:
 系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！
 
 因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了：
-<!—more—>
 
-Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用rvm install 1.9.3安装ruby。 然后照Octopress官方安装教程[http://octopress.org/docs/setup/]配置。
+Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用 **rvm install 1.9.3** 安装ruby。 然后照[Octopress官方安装教程](http://octopress.org/docs/setup/)配置。
 
-OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 $sudo gem install cocoapods安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.
+OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 **$sudo gem install cocoapods** 安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.
 
 找了很多解决办法，比如重新安装xcode command line tools，使用xcode-selelct等等，都不起作用。好吧，最后还是去cocoapods看看，开发者强烈建议使用Mac自带的ruby来安装cocoapods。
 
