@@ -42,4 +42,16 @@ Cocoa使用该模式来处理用户界面相关的事件。
 ####何为Run loop 事件源
 从字面翻译来看，run loop就是一个运行循环，的确它就是一个处理输入时间的运行循环，为什么需要这样处理，难道没有事件发生的时候让线程空转浪费资源？很明显在有事件发生的时候唤醒线程，没有事件发生的时候让其sleep更好。
 
+下面我还是拿这张百看不厌的图来说事：
 
+![alt text](https://developer.apple.com/library/mac/documentation/cocoa/conceptual/Multithreading/Art/runloop.jpg)
+
+可以看到，runloop处理的source大体上分为两种，一种是input source 还有一种是time source.
+
+1.Time Source.创建NSTimer添加到run loop中，这里需要注意的是，NSTimer默认是处于NSDefaultRunloopModex，这也就可以解释为什么如果你在你的控制器中添加了一个timer定时刷新你的界面，而你在拖动视图的时候timer不回fire，因为这个时候你的runloop 是NSEventTrackingRunloopMode,在这个mode下timer不回fire。
+
+2.input sources
+
+
+
+今天先写到这里，下次再来补充~~
