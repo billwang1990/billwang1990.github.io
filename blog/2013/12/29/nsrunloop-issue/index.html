@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于NSRunloop的学习和理解 - 亚庆的 Blog</title>
+  <meta name="author" content="王亚庆">
+
+  
+  <meta name="description" content="NSRunloop是iOS中比较重要的一个东西，有必要对它进行学习理解之后做一些记录： 请尊重作者劳动成果，转载请注明出处！ 首先来看看苹果官方给出的解释：
+The NSRunLoop class declares the programmatic interface to objects &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="亚庆的 Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">亚庆的 Blog</a></h1>
+  
+    <h2>NSLog(@"About life, about knowledge, about happiness!");</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:billwang1990.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于NSRunloop的学习和理解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-29T10:49:38-08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://billwang1990.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>NSRunloop是iOS中比较重要的一个东西，有必要对它进行学习理解之后做一些记录：</h4>
+
+<!-- more -->
+
+
+<p><strong>请尊重作者劳动成果，转载请注明出处！</strong></p>
+
+<p>首先来看看苹果官方给出的解释：
+<em>The NSRunLoop class declares the programmatic interface to objects that manage input sources. An NSRunLoop object processes input for sources such as mouse and keyboard events from the window system, NSPort objects, and NSConnection objects. An NSRunLoop object also processes NSTimer events.</em></p>
+
+<p>在程序中，每个<em>NSThread</em>对象，包括了<em>main thread</em>都会有一个自动创建的<em>NSRunloop</em>对象如果需要的话。如果你想要获取当前线程的runloop的话，只需要调用 <em>currentRunloop</em>.</p>
+
+<p>每个runloop可以运行在不同的模式之下，不同的runloop mode处理其mode下包含的input sources.</p>
+
+<p>查看苹果Docunment可以看到，它通过两个常量定义了两个run loop mode:
+1.extern NSString* const NSDefaultRunLoopMode;
+在这个模式下，将会处理除了NSConnection以外的input source.这是最常用的run loop mode。</p>
+
+<p>2.extern NSString* const NSRunLoopCommonModes;
+这是一个run loop mode 的合集，将input source加入之后意味着在common mode包含的所有模式下都可以处理，在Cocoa应用程序中，默认情况下Common Modes包含default modes,modal modes,event Tracking modes.</p>
+
+<p>以上两个是由NSRunloop定义的，在文档中有句话，<em>Additional run loop modes are defined by NSConnection and NSApplication</em>，增加的三个mode就是下面这三个:</p>
+
+<p>*NSConnectionReplyMode
+这个mode表明NSConnection对象等待reply，通常不会用到。</p>
+
+<p>*NSModalPanelRunLoopMode
+需要等待处理的input source为modal panel时设置，比如NSSavePanel和NSOpenPanel。</p>
+
+<p>*NSEventTrackingRunLoopMode
+Cocoa使用该模式来处理用户界面相关的事件。</p>
+
+<h4>何为Run loop 事件源</h4>
+
+<p>从字面翻译来看，run loop就是一个运行循环，的确它就是一个处理输入时间的运行循环，为什么需要这样处理，难道没有事件发生的时候让线程空转浪费资源？很明显在有事件发生的时候唤醒线程，没有事件发生的时候让其sleep更好。</p>
+
+<p>下面我还是拿这张百看不厌的图来说事：</p>
+
+<p><img src="https://developer.apple.com/library/mac/documentation/cocoa/conceptual/Multithreading/Art/runloop.jpg" alt="alt text" /></p>
+
+<p>可以看到，runloop处理的source大体上分为两种，一种是input source 还有一种是time source.</p>
+
+<p>1.Time Source.创建NSTimer添加到run loop中，这里需要注意的是，NSTimer默认是处于NSDefaultRunloopModex，这也就可以解释为什么如果你在你的控制器中添加了一个timer定时刷新你的界面，而你在拖动视图的时候timer不回fire，因为这个时候你的runloop 是NSEventTrackingRunloopMode,在这个mode下timer不回fire。</p>
+
+<p>2.input sources</p>
+
+<p>今天先写到这里，下次再来补充~~</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">王亚庆</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-29T10:49:38-08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/27/12-dot-27/" title="Previous Post: iOS 开发设计模式笔记（3）">&laquo; iOS 开发设计模式笔记（3）</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/29/nsrunloop-issue/">关于NSRunloop的学习和理解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/27/12-dot-27/">iOS 开发设计模式笔记（3）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/25/3-number-post/">MAC下安装Octopress，Cocoapods关于ruby版本的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/24/2nd-blog/">iOS 开发设计模式笔记（2）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/24/1st-blog/">iOS 开发设计模式笔记（1）</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 王亚庆 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yaqingblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue/';
+        var disqus_url = 'http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

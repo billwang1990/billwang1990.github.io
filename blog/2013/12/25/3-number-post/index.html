@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS 开发设计模式笔记（1） - 亚庆的 Blog</title>
+  <title>MAC下安装Octopress，Cocoapods关于ruby版本的问题 - 亚庆的 Blog</title>
   <meta name="author" content="王亚庆">
 
   
-  <meta name="description" content="读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记: 1.Prototype 原型模式 定义：使用原型实例指定创建对象的种类，并通过复制这个原型创建新的对象。（《设计模式》1994） 一般在初始化信息不发生变化的情况下，克隆是最好的办法。 &hellip;">
+  <meta name="description" content="不多说，直接上正题。
+系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！ 因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了： Octopress要求ruby的版本不低于 1.9.3， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://billwang1990.github.io/blog/2013/12/25/1st-blog">
+  <link rel="canonical" href="http://billwang1990.github.io/blog/2013/12/25/3-number-post">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="亚庆的 Blog" type="application/atom+xml">
@@ -68,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS 开发设计模式笔记（1）</h1>
+      <h1 class="entry-title">MAC下安装Octopress，Cocoapods关于ruby版本的问题</h1>
     
     
       <p class="meta">
@@ -84,7 +85,7 @@
   
 
 
-<time datetime="2013-12-25T07:52:44+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
+<time datetime="2013-12-25T14:01:54-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://billwang1990.github.io">Comments</a>
@@ -94,41 +95,23 @@
   </header>
 
 
-<div class="entry-content"><h4>读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记:</h4>
+<div class="entry-content"><p>不多说，直接上正题。
+系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！</p>
 
-<h4>1.Prototype 原型模式</h4>
+<p>因为开发iOS，所以需要使用cocoapods来管理三方, 另外需要搭建一个Octopress的blog，两者都需要用到ruby，问题来了：</p>
 
-<pre><code>定义：使用原型实例指定创建对象的种类，并通过复制这个原型创建新的对象。（《设计模式》1994）
-</code></pre>
+<p>Octopress要求ruby的版本不低于 1.9.3，而系统自带的ruby是1.8.7的，很明显不搭调，于是使用 <strong>rvm install 1.9.3</strong> 安装ruby。 然后照<a href="http://octopress.org/docs/setup/">Octopress官方安装教程</a>配置。</p>
 
 <!-- more -->
 
 
-<pre><code> 一般在初始化信息不发生变化的情况下，克隆是最好的办法。这既可以隐藏对象创建的细节，又对性能是大大的提升。
- 适用情景：
- 需要创建的对象应独立于其类型与创建方式。
- 要实例化的类是运行时决定的。
- 不想要与产品层次相对应的工厂层次。
- 不同类的实例间的差异仅是状态的若干组合。因此复制相应数量的原型比手工实例化更加方便。
- 类不容易创建，比如每个组件可把其他组件作为子节点的组合对象。复制已有的组合对象并对副本进行修改会更加容易。
-</code></pre>
+<p>OK，Octopress一切完工，这个时候我来安装cocoapods，它也用到了ruby，这个时候默认的ruby已经不是系统自带的ruby了。于是在使用 <strong>$sudo gem install cocoapods</strong> 安装的时候一直报错 ：COreFoundation is needed to build the Xcodeproj C extension.</p>
 
-<h4>2.工厂方法模式</h4>
+<p>找了很多解决办法，比如重新安装xcode command line tools，使用xcode-selelct等等，都不起作用。好吧，最后还是去cocoapods看看，开发者强烈建议使用Mac自带的ruby来安装cocoapods。</p>
 
-<pre><code> 工厂方法也称为虚构造器。它适用于这种情况：一个类无法预期需要生成哪个类的对象，想让其子类来指定所生成的对象。
- 定义：定义创建对对象的接口，让子类决定实例化哪一个类，工厂方法使得一个类的实例化延迟到子类。
- 适用情形：
- 编译时无法准确预期要创建的对象的类。
- 类想让其子类决定在运行时创建什么
- 类由若干辅助类为其子类，而你想将返回哪个子类这一信息局部化
-</code></pre>
+<p>好吧，最后我妥协了，将默认的ruby还原为系统自带的ruby，这个时候再来安装cocoapods，一切正常. 然后只是将octopress的工作目录使用rvm配置为使用1.9.3的ruby，也就是说使用了两个版本的ruby。</p>
 
-<h4>3.抽象工厂</h4>
-
-<pre><code>定义：提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。
- 软件设计黄金法则：变动需要抽象。
- 比如，如果APP要支持更换皮肤，可以设计成抽象工厂。
-</code></pre>
+<p>方法虽然看起来是土了一点，但是简单粗暴有效！</p>
 </div>
 
 
@@ -151,7 +134,7 @@
   
 
 
-<time datetime="2013-12-25T07:52:44+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
+<time datetime="2013-12-25T14:01:54-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
       
 
 
@@ -166,8 +149,10 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/12/24/2nd-blog/" title="Previous Post: iOS 开发设计模式笔记（2）">&laquo; iOS 开发设计模式笔记（2）</a>
       
-        <a class="basic-alignment right" href="/blog/2013/12/25/2nd-blog/" title="Next Post: iOS 开发设计模式笔记（2）">iOS 开发设计模式笔记（2） &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2013/12/27/12-dot-27/" title="Next Post: iOS 开发设计模式笔记（3）">iOS 开发设计模式笔记（3） &raquo;</a>
       
     </p>
   </footer>
@@ -188,19 +173,23 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/29/nsrunloop-issue/">关于NSRunloop的学习和理解</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/27/12-dot-27/">iOS 开发设计模式笔记（3）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/12/26/3-number-post/">MAC下安装Octopress，Cocoapods关于ruby版本的问题</a>
+        <a href="/blog/2013/12/25/3-number-post/">MAC下安装Octopress，Cocoapods关于ruby版本的问题</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/12/25/2nd-blog/">iOS 开发设计模式笔记（2）</a>
+        <a href="/blog/2013/12/24/2nd-blog/">iOS 开发设计模式笔记（2）</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/12/25/1st-blog/">iOS 开发设计模式笔记（1）</a>
+        <a href="/blog/2013/12/24/1st-blog/">iOS 开发设计模式笔记（1）</a>
       </li>
     
   </ul>
@@ -229,8 +218,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://billwang1990.github.io/blog/2013/12/25/1st-blog/';
-        var disqus_url = 'http://billwang1990.github.io/blog/2013/12/25/1st-blog/';
+        var disqus_identifier = 'http://billwang1990.github.io/blog/2013/12/25/3-number-post/';
+        var disqus_url = 'http://billwang1990.github.io/blog/2013/12/25/3-number-post/';
         var disqus_script = 'embed.js';
       
     (function () {
