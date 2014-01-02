@@ -26,7 +26,7 @@ categories:
 在这个模式下，将会处理除了NSConnection以外的input source.这是最常用的run loop mode。
 
 2.extern NSString* const NSRunLoopCommonModes;
-这是一个run loop mode 的合集，将input source加入之后意味着在common mode包含的所有模式下都可以处理，在Cocoa应用程序中，默认情况下Common Modes包含default modes,modal modes,event Tracking modes.
+这是一个run loop mode 的合集，将input source加入之后意味着在common mode包含的所有模式下都可以处理，在Cocoa应用程序中，默认情况下Common Modes包含default modes,modal modes,event Tracking modes.注意这个并不是一个特定的mode，而是一个mode的集合，而runloop必须运行在一个特定的mode下。
 
 以上两个是由NSRunloop定义的，在文档中有句话，*Additional run loop modes are defined by NSConnection and NSApplication*，增加的三个mode就是下面这三个:
 
@@ -39,6 +39,16 @@ categories:
 *NSEventTrackingRunLoopMode
 Cocoa使用该模式来处理用户界面相关的事件。
 
+
+
+
+NSRunloop并不真的是一个loop，的apple的[文档中](https://developer.apple.com/library/ios/documentation/cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html)
+也提到了需要自己写while或者for语句来实现,类似下面：
+	
+	while(running){ 
+	    [NSRunLoop currentRunLoop]     runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+	}
+
 ####何为Run loop 事件源
 从字面翻译来看，run loop就是一个运行循环，的确它就是一个处理输入时间的运行循环，为什么需要这样处理，难道没有事件发生的时候让线程空转浪费资源？很明显在有事件发生的时候唤醒线程，没有事件发生的时候让其sleep更好。
 
@@ -48,10 +58,16 @@ Cocoa使用该模式来处理用户界面相关的事件。
 
 可以看到，runloop处理的source大体上分为两种，一种是input source 还有一种是time source.
 
-1.Time Source.创建NSTimer添加到run loop中，这里需要注意的是，NSTimer默认是处于NSDefaultRunloopModex，这也就可以解释为什么如果你在你的控制器中添加了一个timer定时刷新你的界面，而你在拖动视图的时候timer不回fire，因为这个时候你的runloop 是NSEventTrackingRunloopMode,在这个mode下timer不回fire。
+1.Time Source.
+Timer sources deliver synchronous events, occurring at a scheduled time or repeating interval. 
 
-2.input sources
+苹果文档中有句话需要注意，`Timer sources deliver events to their handler routines but do not cause the run loop to exit.`
 
+创建NSTimer添加到run loop中的时候，这里需要注意的是，NSTimer默认是处于NSDefaultRunloopMode，这也就可以解释为什么如果你在你的控制器中添加了一个timer定时刷新你的界面，而你在拖动视图的时候timer不回fire，因为这个时候你的runloop 是NSEventTrackingRunloopMode,在这个mode下timer不回fire。
 
+2.input source
+input source 主要是一些异步的事件，比如来自其它线程或者其它app的消息。
 
-今天先写到这里，下次再来补充~~
+input source 传递异步事件到其对应的处理函数，并且使`runUntilDate`(与线程相关联的runloop对象调用)返回。
+
+为了能够处理input sourcr，run loops 产生notifications.通过注册成run-loop observers可以接受到这些通知（通过Core Foundation 来注册observers）.
