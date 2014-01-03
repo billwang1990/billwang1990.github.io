@@ -1,0 +1,62 @@
+---
+layout: post
+title: "Text Kit的学习和理解"
+date: 2014-01-03 13:20:44 -0800
+comments: true
+categories: 
+---
+
+这篇文章是对Text Kit学习后的一个记录。
+<!--more-->
+
+###Text Kit的前世今生
+
+在iOS6以前，如果要渲染富文本的内容，可能通常会使用webview来实现，到了iOS6时增加了attribute string来支持这部分工作。
+
+在iOS6中，基于文本的控件（比如uitextview， uilabel等）是基于Webkit和Core Graphic的绘图函数来实现的。
+
+到了iOS7事件就变得不一样了，这些文本类型的控件是构建与Text Kit之上的了，不再是Web Kit.
+
+Text Kit包含了以下的新功能：
+
+1. Dynamic type
+2. Letterpress effects
+3. Exclusion paths
+4. Dynamic text formatting and storage
+
+####Dynamic type
+iOS7增强了灵活改变文字大小的功能，讲这个，你可以首先打开你的设备，在设置->通用->文字大小，你会发现可以改变阅读文字的大小，所有支持Dynamic type的App的字体都将和这里设置的字体保持一致。
+
+要使你的App支持这一新功能，你只需要像下面一样设置你的字体：
+	
+	UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+	
+是不是很简单，另外有一点，如果你想你的App随着你的设置菜单设置的字体大小改变的话，你还需要将注册到NSNotificationCenter来监听字体大小改变的事件。
+
+####Letterpress effects
+要设置字体具有印刷效果比较简单的做法是给attribute string增加一个键NSTextEffectAttributeName，它的值为NSTextEffectLetterpressStyle。
+
+####Exclusion paths
+利用这个功能，你可以让你的文字包围在一个图片的周围，让你的排版看起来更加的酷。
+比如你有一个UITextView的instance，那么你要让它包围在你指定的一块区域的周围，你就可以可以用下面的方法：
+	
+	_textView.textContainer.exclusionPaths = @[your exclusionPath];
+	
+在这段代码中你可能发现了textContainer这么个属性，这也是很重要的一个东西，下文会提到的。
+
+####Dynamic text formatting and storage
+利用Text Kit你不仅可以根据设置信息动态的改变字体的大小，而且你也可以利用它根据文本的内容动态的改变文字。
+
+这里有三个东西需要注意：
+
+1. NSTextStorage：
+它用来存储将要渲染的文字并通知 *layoutmanager* 关于文本内容的改变。
+
+2. NSLayoutManager：
+将存储的文本内容渲染到屏幕上。
+
+3. NSTextContainer：
+描述文本渲染的区域，如上文中，每一个UITextview的实例已经包含了一个*textContainer*了。
+
+个人认为这三者的关系正好符合MVC的结构，NSTextStorage扮演了model，NSLayoutManager扮演的是controller，而NSTextContainer扮演的是view。
+
