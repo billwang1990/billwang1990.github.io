@@ -1,19 +1,17 @@
 ---
 layout: post
-title: "Text Kit的学习和理解"
+title: "Text Kit的简单介绍"
 date: 2014-01-03 13:20:44 -0800
 comments: true
 categories: 
 ---
-
-这篇文章是对Text Kit学习后的一个记录。
 <!--more-->
 
 ###Text Kit的前世今生
 
 在iOS6以前，如果要渲染富文本的内容，可能通常会使用webview来实现，到了iOS6时增加了attribute string来支持这部分工作。
 
-在iOS6中，基于文本的控件（比如uitextview， uilabel等）是基于Webkit和Core Graphic的绘图函数来实现的。
+在iOS6中，基于文本的控件（比如UITextview，UILabel等）是基于Webkit和Core Graphic的绘图函数来实现的。
 
 到了iOS7事件就变得不一样了，这些文本类型的控件是构建与Text Kit之上的了，不再是Web Kit.
 
