@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2014-01-02T18:04:49-08:00</updated>
+  <updated>2014-01-03T21:06:51-08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -12,6 +12,147 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[关于swizzling]]></title>
+    <link href="http://billwang1990.github.io/blog/2014/01/03/about-swizzling/"/>
+    <updated>2014-01-03T20:07:36-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/03/about-swizzling</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p><em>（尊重作者劳动成果，转载请注明出处）</em></p>
+
+<p>今天在调试app的时候发现一个很奇怪的问题，我自定义的tableviewcell，使用了autolayout。在我的ipad（iOS7）上跑的时候一切正常。但是使用模拟器跑iOS6的系统的时候，抛出了一个异常：</p>
+
+<pre><code>*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Auto Layout still required after executing -layoutSubviews. UITableView's implementation of -layoutSubviews needs to call super.'
+</code></pre>
+
+<p>上网查资料，在stackoverflow上面有关于这个问题的讨论，貌似这个是iOS存在的一个bug，在iOS7已经解决了，在iOS6下使用autolayout的时候，可以通过swizzling（方法混写）来解决这个问题，本文的重点也是在swzzling上。</p>
+
+<h4>什么是swizzling</h4>
+
+<p>简单来说，swizzling可以动态的改变方法的实现，达到修改类的行为的目的。能够实现这一点，归功于objective-c的动态语言特性。</p>
+
+<p>在iOS中，所有的方法并不是在编译的时候确定下来的，而是通过send message，runtime通过方法签名去查找方法的实现，再调用实现函数。因此也就给了大家机会在运行时动态的改变方法的实现代码。</p>
+
+<p>我们可以在分类中实现swizzling，这里有一个关于分类中实现swizzling时机的选择，很多人的是在分类的<em>+load</em>方法中实现的swizzling，而<em>《ios 6 pushing the limits》</em>的作者在其书中阐述了他的观点，他认为方法混写可能会引发出人意料的行为。在+load中实现意味着只要链接分类便会自动启用方法混写。这可能会导致一些很难调试的bug。
+话虽如此，我还是在+load方法中实现的swizzling。
+（注：+load方法是一个钩子，它会在第一次加载分类的时候执行，如果多个分类都实现了+load，那么都会被调用）</p>
+
+<p>OK,上代码说事，下面就是使用代码混写的解决方式：</p>
+
+<pre><code>+ (void)load
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+
+        SEL layoutSubviews = @selector(layoutSubviews);
+        SEL replaceLayoutSubviews = @selector(_autolayout_replacementLayoutSubviews);
+
+       Method existingMethod = class_getInstanceMethod(self, @selector(layoutSubviews));
+        Method newMethod = class_getInstanceMethod(self, @selector(_autolayout_replacementLayoutSubviews));
+
+        BOOL methodAdded = class_addMethod([self class], layoutSubviews, method_getImplementation(newMethod), method_getTypeEncoding(newMethod));
+
+        if (methodAdded) {
+            class_replaceMethod([self class],
+                            replaceLayoutSubviews,
+                          method_getImplementation(existingMethod),
+                            method_getTypeEncoding(existingMethod));
+        } else {
+            method_exchangeImplementations(existingMethod, newMethod);
+        }
+
+    });
+}
+
+- (void)_autolayout_replacementLayoutSubviews
+{
+    [super layoutSubviews];
+    [self _autolayout_replacementLayoutSubviews]; 
+    [super layoutSubviews];
+}
+</code></pre>
+
+<p>在+load方法中，先获取将要被代替的selector和代替它的selelctor，然后分别获取他们的Method，接着尝试把第二个方法的实现加在第一个方法的selector下，这么做的原因是防止第一个方法不存在。如果被成功加进去，那么也就是说第一个方法是空的，便把它替换了。如果bool值是NO，那么就需要将两者进行交换。</p>
+
+<p>这里大家可能发现了在实现代码中有一句<em>[self _autolayout_replacementLayoutSubviews];</em>，这里并不会造成循环引用，因为在调用这个方法的时候已经通过swizzling将它交换了，这个时候你调用的是原来的实现函数。</p>
+
+<p>大概总结了就这么多，如果又不对的地方，欢迎指正！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Text Kit的简单介绍]]></title>
+    <link href="http://billwang1990.github.io/blog/2014/01/03/textkit/"/>
+    <updated>2014-01-03T13:20:44-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/03/textkit</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<h3>Text Kit的前世今生</h3>
+
+<p>在iOS6以前，如果要渲染富文本的内容，可能通常会使用webview来实现，到了iOS6时增加了attribute string来支持这部分工作。</p>
+
+<p>在iOS6中，基于文本的控件（比如UITextview，UILabel等）是基于Webkit和Core Graphic的绘图函数来实现的。</p>
+
+<p>到了iOS7事件就变得不一样了，这些文本类型的控件是构建与Text Kit之上的了，不再是Web Kit.</p>
+
+<p>Text Kit包含了以下的新功能：</p>
+
+<ol>
+<li>Dynamic type</li>
+<li>Letterpress effects</li>
+<li>Exclusion paths</li>
+<li>Dynamic text formatting and storage</li>
+</ol>
+
+
+<h4>Dynamic type</h4>
+
+<p>iOS7增强了灵活改变文字大小的功能，讲这个，你可以首先打开你的设备，在设置->通用->文字大小，你会发现可以改变阅读文字的大小，所有支持Dynamic type的App的字体都将和这里设置的字体保持一致。</p>
+
+<p>要使你的App支持这一新功能，你只需要像下面一样设置你的字体：</p>
+
+<pre><code>UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+</code></pre>
+
+<p>是不是很简单，另外有一点，如果你想你的App随着你的设置菜单设置的字体大小改变的话，你还需要将注册到NSNotificationCenter来监听字体大小改变的事件。</p>
+
+<h4>Letterpress effects</h4>
+
+<p>要设置字体具有印刷效果比较简单的做法是给attribute string增加一个键NSTextEffectAttributeName，它的值为NSTextEffectLetterpressStyle。</p>
+
+<h4>Exclusion paths</h4>
+
+<p>利用这个功能，你可以让你的文字包围在一个图片的周围，让你的排版看起来更加的酷。
+比如你有一个UITextView的instance，那么你要让它包围在你指定的一块区域的周围，你就可以可以用下面的方法：</p>
+
+<pre><code>_textView.textContainer.exclusionPaths = @[your exclusionPath];
+</code></pre>
+
+<p>在这段代码中你可能发现了textContainer这么个属性，这也是很重要的一个东西，下文会提到的。</p>
+
+<h4>Dynamic text formatting and storage</h4>
+
+<p>利用Text Kit你不仅可以根据设置信息动态的改变字体的大小，而且你也可以利用它根据文本的内容动态的改变文字。</p>
+
+<p>这里有三个东西需要注意：</p>
+
+<ol>
+<li><p>NSTextStorage：
+它用来存储将要渲染的文字并通知 <em>layoutmanager</em> 关于文本内容的改变。</p></li>
+<li><p>NSLayoutManager：
+将存储的文本内容渲染到屏幕上。</p></li>
+<li><p>NSTextContainer：
+描述文本渲染的区域，如上文中，每一个UITextview的实例已经包含了一个<em>textContainer</em>了。</p></li>
+</ol>
+
+
+<p>个人认为这三者的关系正好符合MVC的结构，NSTextStorage扮演了model，NSLayoutManager扮演的是controller，而NSTextContainer扮演的是view。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS7 新的值类型 Instancetype]]></title>
