@@ -1,47 +1,51 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://billwang1990.github.io/blog/2013/12/24/1st-blog/</loc>
-        <lastmod>2013-12-29T10:48:38-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2013/12/25/1st-blog/</loc>
+        <lastmod>2013-12-27T22:14:58+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/2013/12/24/2nd-blog/</loc>
-        <lastmod>2013-12-29T10:48:38-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2013/12/25/2nd-blog/</loc>
+        <lastmod>2013-12-27T22:52:09+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/2013/12/25/3-number-post/</loc>
-        <lastmod>2013-12-29T10:48:38-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2013/12/26/3-number-post/</loc>
+        <lastmod>2013-12-27T22:14:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://billwang1990.github.io/blog/2013/12/27/12-dot-27/</loc>
-        <lastmod>2013-12-29T10:48:38-08:00</lastmod>
+        <lastmod>2013-12-27T22:14:58+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue/</loc>
-        <lastmod>2014-01-02T14:20:21-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue/</loc>
+        <lastmod>2014-01-06T19:25:08+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/2014/01/02/new-return-type-instancetype/</loc>
-        <lastmod>2014-01-02T17:53:36-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2014/01/03/new-return-type-instancetype/</loc>
+        <lastmod>2014-01-06T19:25:08+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/2014/01/03/textkit/</loc>
-        <lastmod>2014-01-03T21:03:26-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2014/01/04/textkit/</loc>
+        <lastmod>2014-01-06T19:25:08+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/2014/01/03/about-swizzling/</loc>
-        <lastmod>2014-01-03T21:05:42-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2014/01/04/about-swizzling/</loc>
+        <lastmod>2014-01-06T19:25:08+08:00</lastmod>
     </url>
     <url>
-        <loc>http://billwang1990.github.io/blog/archives/</loc>
-        <lastmod>2014-01-03T21:05:42-08:00</lastmod>
+        <loc>http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file/</loc>
+        <lastmod>2014-01-06T20:16:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://billwang1990.github.io/</loc>
-        <lastmod>2014-01-03T21:05:42-08:00</lastmod>
+        <lastmod>2014-01-06T20:16:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://billwang1990.github.io/robots.txt</loc>
-        <lastmod>2013-12-24T15:40:31-08:00</lastmod>
+        <lastmod>2013-12-27T22:14:58+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://billwang1990.github.io/blog/archives/</loc>
+        <lastmod>2014-01-06T20:16:57+08:00</lastmod>
     </url>
 </urlset>
