@@ -1,0 +1,68 @@
+---
+layout: post
+title: "如何写cocoapods podspec贡献自己的代码"
+date: 2014-01-06 19:27:37 +0800
+comments: true
+categories: 
+---
+
+<!--more-->
+####什么是cocoapods？
+做iOS开发需要用到很多三方，才开始可能很多人和我才开始一样，手动添加三方，费事费力。用了cocoapods之后，一切都变得so easy。如果还没用的同学请参考这篇[大牛的介绍文章](http://blog.devtang.com/blog/2012/12/02/use-cocoapod-to-manage-ios-lib-dependency)。今天我要讲的是另外一个主题。
+
+####贡献代码到cocoapods
+
+cocoapods是托管在[github](https://github.com/cocoapods/cocoapods)上的一个开源项目，要想为它做贡献，首先你要会使用git，所以如果还不会的话，请先自学下吧。
+
+所有的spec都在[这里](https://github.com/CocoaPods/Specs),你首先要做的是需要**Fork**这个仓库，然后你就拥有了一个仓库的副本，这个时候在自己的dashboard就就可以看到多了一个repo，接下来以我自己为例子把repo克隆下来。
+
+    git clone https://github.com/billwang1990/Specs.git
+
+克隆好了之后，就可以向里面添加自己的代码来，首先创建了一个文件夹。
+
+    cd Specs/
+    mkdir yourDirName
+    cd yourDirName
+
+这个时候先暂停下，对你要贡献的代码打个**tag**
+
+    git tag 0.0.1
+    
+然后,把tag推到你的项目的远程服务器端。
+
+    git push --tags
+    
+接下来再回到之前在spec里创建的那个文件夹（yourDirName）中
+再创建一个文件夹,并且生成一个spec文件
+
+    mkdir 0.0.1
+    cd 0.0.1
+    pod spec create yourSpecFileName
+    
+这个时候你应该可以看到你的0.0.1文件夹多了一个yourSpecFileName.podspec文件，打开这个文件进行编辑吧。下面的就是我的podspec文件：
+
+
+
+    Pod::Spec.new do |s|
+         s.name         = "YQUpdateHelper"
+         s.version      = "0.1.0"
+         s.summary      = "YQUpdateHelper is an iOS toolkit, it can notify user if there is an new version of your app in app store."
+         s.homepage     = "https://github.com/billwang1990/YQUpdateNotification"
+         s.screenshots  = "https://github.com/billwang1990/YQUpdateNotification/blob/master/screenshot.PNG"
+         s.license      = 'MIT (LICENSE)'
+         s.author       = { "billwang1990" => "billwang1990@gmail.com" }
+         s.platform     = :ios, '6.0'
+          s.source       = { :git => "https://github.com/billwang1990/YQUpdateNotification.git", :tag => "0.1.0" }
+           s.source_files  = 'YQUpdateHelper', 'YQUpdateHelper/*.{h,m}'
+          s.resource  = "YQUpdateHelper/YQUpdateHelper.bundle"
+         s.framework  = 'Foundation'
+         s.requires_arc = true
+    end
+
+OK,写完了保存，还没完事，你需要执行 *pod spec lint yourSpecFileName.podspec*检查一下你的文件内容是否写对了。
+
+完事之后，你把仓库push到自己的远端，然后 **send pull request**，等待cocoapods团队merge了之后，你使用**pod search**就应该能找到你的代码了。
+
+    
+    
+
