@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2014-01-06T20:17:08+08:00</updated>
+  <updated>2014-01-12T20:15:42-08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -14,9 +14,85 @@
 
   
   <entry>
+    <title type="html"><![CDATA[GCD（Grand Central Dispatch）]]></title>
+    <link href="http://billwang1990.github.io/blog/2014/01/12/grand-central-dispatch/"/>
+    <updated>2014-01-12T19:12:04-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/12/grand-central-dispatch</id>
+    <content type="html"><![CDATA[<h3>什么是GCD</h3>
+
+<p>Grand Central Dispatch是异步执行任务的技术之一。开发者只需要定义想执行的任务追加到Dispatch Queue中，GCD就能生成必要的线程并计划执行任务。由于线程管理是作为系统的一部分来实现的，因此可统一管理，也可执行任务，这样就比以前的线程更有效率。</p>
+
+<!--more-->
+
+
+<h3>两种Dispatch Queue</h3>
+
+<p>1、Serial Dispatch Queue
+串行执行</p>
+
+<p>2、Concurrent Dispatch Queue
+并行执行，但并行执行的处理数量取决于当前系统的状态</p>
+
+<h3>如何获取Dispatch Queue</h3>
+
+<ol>
+<li><p>通过dispatch_queue_create函数生成。
+ 可以生成任意多个queue，当生成多个serail queue的时候，多个serail queue将并行执行。虽然可以生成多个串行的queue来并行操作，但是系统对于一个serail queue就只生成一个线程，如果过多使用多线程，就会消耗大量内存，引起大量上下文切换，大幅度降低系统的响应性能。
+ 另外，生成的queue必须由程序员手动释放，使用dispatch_release函数。
+ 另外有下面一段代码需要注意：</p>
+
+<pre><code> dispatch_queue_t myQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_CONCURRENT);
+ dispatch_async(queue, ^{NSLog(@"block on my queue");});
+ dispatch_release(myQueue);
+</code></pre>
+
+<p> 在以上代码中，将block追加到queue，并立即release掉，这样做完全没有问题，在dispatch_async函数中追加block到queue，该block通过dispatch_retain函数持有queue，block结束时，会通过dispatch_release释放掉该block持有的queue。</p></li>
+<li><p>获取系统标准提供的Dispatch Queue</p>
+
+<p> Main Dispatch Queue(serail queue)和Global Dispatch Queue(Concurrent)</p>
+
+<p> 另外Global Dispatch Queue有四个优先级。High Priority, Default Priority, Low Priority, Background Priority。
+ 对Main Dispatch Queue和Global Dispatch Queue执行release和retain没有任何变化</p></li>
+</ol>
+
+
+<h3>相关操作</h3>
+
+<ol>
+<li><p>dispatch_set_target_queue函数</p>
+
+<p> dispatch_queue_create生成的queue都使用与默认优先级Global Disptch Queue相同执行优先级的线程，可以通过此函数变更优先级。</p></li>
+<li><p>dispatch_after函数</p>
+
+<p> <strong>它并不是在指定的时间后执行处理，而是在指定的事件后追加处理到Dispatch Queue。</strong></p></li>
+<li><p>Dispatch Group</p>
+
+<p> 可以实现追加到Dispatch Queue的多个处理全部结束后才追加某个操作。</p></li>
+<li><p>dispatch_barrier_async函数</p>
+
+<p> 它会等待追加到Concurrent Dispatch Queue上的并行执行的处理全部结束后，再将指定的处理追加到该queue中。</p></li>
+<li><p>dispatch_sync</p>
+
+<p> 和dispatch_async相反，此函数会等待追加的block执行操作直到其完成。</p></li>
+</ol>
+
+
+<h3>Dispatch Source</h3>
+
+<p>关于这一部分，由于本人没真正使用过，所以简单的做个介绍。</p>
+
+<p>GCD中除了Disptch Queue以外，还有个Dispatch Source，它是BSD系统内核惯有功能kqueue的包装。</p>
+
+<p>kqueue是在XNU内核中发生各种事件时，在应用程序编程方执行处理的技术。其CPU负荷相当小，尽量不占用资源。</p>
+
+<p>（尊重作者劳动成功，转载请注明出处）</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[如何写podspec贡献自己的代码到cocoapods]]></title>
     <link href="http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file/"/>
-    <updated>2014-01-06T19:27:37+08:00</updated>
+    <updated>2014-01-06T03:27:37-08:00</updated>
     <id>http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file</id>
     <content type="html"><![CDATA[<!--more-->
 
@@ -86,9 +162,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[关于swizzling]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/04/about-swizzling/"/>
-    <updated>2014-01-04T12:07:36+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/04/about-swizzling</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/03/about-swizzling/"/>
+    <updated>2014-01-03T20:07:36-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/03/about-swizzling</id>
     <content type="html"><![CDATA[<!--more-->
 
 
@@ -156,9 +232,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Text Kit的简单介绍]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/04/textkit/"/>
-    <updated>2014-01-04T05:20:44+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/04/textkit</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/03/textkit/"/>
+    <updated>2014-01-03T13:20:44-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/03/textkit</id>
     <content type="html"><![CDATA[<!--more-->
 
 
@@ -227,9 +303,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[iOS7 新的值类型 Instancetype]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/03/new-return-type-instancetype/"/>
-    <updated>2014-01-03T09:01:56+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/03/new-return-type-instancetype</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/02/new-return-type-instancetype/"/>
+    <updated>2014-01-02T17:01:56-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/02/new-return-type-instancetype</id>
     <content type="html"><![CDATA[<p>随着新的xcode和iOS7发布，iOS新增了一个类型instancetype. 但是它只能被用作返回值的类型，提示编译器方法的返回值的类型和调用此方法的类一致。<!--more-->
 <code>注意：这并不是iOS7或者xcode5的特性，而是Clang中加入的</code></p>
 
@@ -277,9 +353,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[关于NSRunloop的学习和理解]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue/"/>
-    <updated>2013-12-30T02:49:38+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue/"/>
+    <updated>2013-12-29T10:49:38-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue</id>
     <content type="html"><![CDATA[<h4>NSRunloop是iOS中比较重要的一个东西，有必要对它进行学习理解之后做一些记录：</h4>
 
 <!-- more -->
@@ -349,7 +425,7 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   <entry>
     <title type="html"><![CDATA[iOS 开发设计模式笔记（3）]]></title>
     <link href="http://billwang1990.github.io/blog/2013/12/27/12-dot-27/"/>
-    <updated>2013-12-27T21:16:21+08:00</updated>
+    <updated>2013-12-27T05:16:21-08:00</updated>
     <id>http://billwang1990.github.io/blog/2013/12/27/12-dot-27</id>
     <content type="html"><![CDATA[<p><strong>8.外观模式</strong></p>
 
@@ -503,9 +579,9 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   
   <entry>
     <title type="html"><![CDATA[MAC下安装Octopress，Cocoapods关于ruby版本的问题]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/26/3-number-post/"/>
-    <updated>2013-12-26T06:01:54+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/26/3-number-post</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/25/3-number-post/"/>
+    <updated>2013-12-25T14:01:54-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/25/3-number-post</id>
     <content type="html"><![CDATA[<p>不多说，直接上正题。
 系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！</p>
 
@@ -528,9 +604,9 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   
   <entry>
     <title type="html"><![CDATA[iOS 开发设计模式笔记（2）]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/25/2nd-blog/"/>
-    <updated>2013-12-25T08:36:33+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/25/2nd-blog</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/24/2nd-blog/"/>
+    <updated>2013-12-24T16:36:33-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/24/2nd-blog</id>
     <content type="html"><![CDATA[<p>这篇是接着<a href="http://billwang1990.github.io/blog/2013/12/25/1st-blog/">上一篇</a></p>
 
 <h4>4.生成器模式</h4>
@@ -583,9 +659,9 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   
   <entry>
     <title type="html"><![CDATA[iOS 开发设计模式笔记（1）]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/25/1st-blog/"/>
-    <updated>2013-12-25T07:52:44+08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/25/1st-blog</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/24/1st-blog/"/>
+    <updated>2013-12-24T15:52:44-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/24/1st-blog</id>
     <content type="html"><![CDATA[<h4>读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记:</h4>
 
 <h4>1.Prototype 原型模式</h4>
