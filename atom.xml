@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2014-01-12T20:15:42-08:00</updated>
+  <updated>2014-01-15T17:42:45-08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在MAC下安装cocos2d-x]]></title>
+    <link href="http://billwang1990.github.io/blog/2014/01/15/install-cocos2dx-on-mac/"/>
+    <updated>2014-01-15T17:34:43-08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/15/install-cocos2dx-on-mac</id>
+    <content type="html"><![CDATA[<p>cocos2d-x是一款优秀的跨平台游戏引擎，本人一直感兴趣，今天终于决定安装起体验一下。</p>
+
+<p><!--more></p>
+
+<p>总的来说，MAC下安装很简单的：</p>
+
+<p>步骤1：</p>
+
+<p>下载cocos2d-x的安装包,传送门在此 <a href="http://code.google.com/p/cocos2d-x/downloads/list">http://code.google.com/p/cocos2d-x/downloads/list</a></p>
+
+<p>步骤2：</p>
+
+<p>解压缩下载下来的安装包，放到你想放的目录。</p>
+
+<p>步骤3:</p>
+
+<p>cd到解压后的目录中</p>
+
+<p>执行命令</p>
+
+<pre><code>sudo ./install-templates-xcode.sh -f  
+</code></pre>
+
+<p>哈哈，到现在你打开你的xcode你就可以发现多了cocos2d-x的模板了。</p>
+
+<p>Have fun！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GCD（Grand Central Dispatch）]]></title>
