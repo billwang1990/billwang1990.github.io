@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2014-01-17T10:27:43-08:00</updated>
+  <updated>2014-01-29T15:28:30+08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -14,10 +14,120 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Mach-O Excutables]]></title>
+    <link href="http://billwang1990.github.io/blog/2014/01/29/mach-o-excutable/"/>
+    <updated>2014-01-29T14:40:15+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/29/mach-o-excutable</id>
+    <content type="html"><![CDATA[<p>当我们使用xcode开发程序的时候，源文件（<em>.h </em>.m）会被编译成可执行文件。那么这一切到底是怎样发生的呢？下面来简单说明。</p>
+
+<!--more-->
+
+
+<h4>xcrun</h4>
+
+<p>xrun是我们使用最多的一个命令行工具，这个小工具是用来运行别的工具的，比如：</p>
+
+<pre><code>% clang -v
+</code></pre>
+
+<p>在命令行中，我们可以使用如下命令来代替上面的：</p>
+
+<pre><code>% xcrun clang -v
+</code></pre>
+
+<p>xcrun将会指定clang然后传递后面的参数给它来运行。</p>
+
+<h4>不用IDE来运行hello world</h4>
+
+<p>回到命令行中，我们创建一个文件夹并生成一个C源文件。</p>
+
+<pre><code>% mkdir ~/Desktop/objcio-command-line
+% cd !$
+% touch helloworld.c
+</code></pre>
+
+<p>接下来打开生成的C文件</p>
+
+<pre><code>% open -e helloworld.c
+</code></pre>
+
+<p>编辑它：</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+int main(int argc, char *argv[])
+{
+    printf("Hello World!\n");
+    return 0;
+}
+</code></pre>
+
+<p>保存后编译运行：</p>
+
+<pre><code>% xcrun clang helloworld.c
+% ./a.out
+</code></pre>
+
+<p>这个时候命令行就会输出你熟悉的Hello World了，整个过程都在命令行完成。</p>
+
+<p>在刚才的过程中，我们将helloworld.c编译成一个Mach-O的可目标文件被称作a.out。</p>
+
+<h4>Hello World and the Compiler</h4>
+
+<p>我们使用的编译器是clang。</p>
+
+<p>简单来说，编译器会将源文件生成可执行文件，这个过程由一系列步骤组成。</p>
+
+<h4>预处理</h4>
+
+<ul>
+<li><code>Tokenization</code></li>
+<li><code>Macro expansion</code></li>
+<li><code>#include expansion</code></li>
+</ul>
+
+
+<h4>语义分析</h4>
+
+<ul>
+<li><code>Translates preprocessor tokens into a parse tree</code></li>
+<li><code>Applies semantic analysis to the parse tree</code></li>
+<li><code>Outputs an Abstract Syntax Tree (AST)</code></li>
+</ul>
+
+
+<h4>生成代码并优化</h4>
+
+<ul>
+<li><code>Translates an AST into low-level intermediate code (LLVM IR)</code></li>
+<li><code>Responsible for optimizing the generated code</code></li>
+<li><code>target-specific code generation</code></li>
+<li><code>Outputs assembly</code></li>
+</ul>
+
+
+<h4>汇编</h4>
+
+<ul>
+<li><code>Translates assembly code into a target object file</code></li>
+</ul>
+
+
+<h4>链接</h4>
+
+<ul>
+<li><code>Merges multiple object files into an executable (or a dynamic library)</code></li>
+</ul>
+
+
+<p>简单的记录了一下几个步骤，更多详细的内容请查看<a href="http://www.objc.io/issue-6/mach-o-executables.html">这篇文章</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[GCD（Grand Central Dispatch）]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/12/grand-central-dispatch/"/>
-    <updated>2014-01-12T19:12:04-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/12/grand-central-dispatch</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/13/grand-central-dispatch/"/>
+    <updated>2014-01-13T11:12:04+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/13/grand-central-dispatch</id>
     <content type="html"><![CDATA[<h3>什么是GCD</h3>
 
 <p>Grand Central Dispatch是异步执行任务的技术之一。开发者只需要定义想执行的任务追加到Dispatch Queue中，GCD就能生成必要的线程并计划执行任务。由于线程管理是作为系统的一部分来实现的，因此可统一管理，也可执行任务，这样就比以前的线程更有效率。</p>
@@ -92,7 +202,7 @@
   <entry>
     <title type="html"><![CDATA[如何写podspec贡献自己的代码到cocoapods]]></title>
     <link href="http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file/"/>
-    <updated>2014-01-06T03:27:37-08:00</updated>
+    <updated>2014-01-06T19:27:37+08:00</updated>
     <id>http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file</id>
     <content type="html"><![CDATA[<!--more-->
 
@@ -162,9 +272,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[关于swizzling]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/03/about-swizzling/"/>
-    <updated>2014-01-03T20:07:36-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/03/about-swizzling</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/04/about-swizzling/"/>
+    <updated>2014-01-04T12:07:36+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/04/about-swizzling</id>
     <content type="html"><![CDATA[<!--more-->
 
 
@@ -232,9 +342,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Text Kit的简单介绍]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/03/textkit/"/>
-    <updated>2014-01-03T13:20:44-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/03/textkit</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/04/textkit/"/>
+    <updated>2014-01-04T05:20:44+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/04/textkit</id>
     <content type="html"><![CDATA[<!--more-->
 
 
@@ -303,9 +413,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[iOS7 新的值类型 Instancetype]]></title>
-    <link href="http://billwang1990.github.io/blog/2014/01/02/new-return-type-instancetype/"/>
-    <updated>2014-01-02T17:01:56-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2014/01/02/new-return-type-instancetype</id>
+    <link href="http://billwang1990.github.io/blog/2014/01/03/new-return-type-instancetype/"/>
+    <updated>2014-01-03T09:01:56+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2014/01/03/new-return-type-instancetype</id>
     <content type="html"><![CDATA[<p>随着新的xcode和iOS7发布，iOS新增了一个类型instancetype. 但是它只能被用作返回值的类型，提示编译器方法的返回值的类型和调用此方法的类一致。<!--more-->
 <code>注意：这并不是iOS7或者xcode5的特性，而是Clang中加入的</code></p>
 
@@ -353,9 +463,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[关于NSRunloop的学习和理解]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue/"/>
-    <updated>2013-12-29T10:49:38-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/29/nsrunloop-issue</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue/"/>
+    <updated>2013-12-30T02:49:38+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue</id>
     <content type="html"><![CDATA[<h4>NSRunloop是iOS中比较重要的一个东西，有必要对它进行学习理解之后做一些记录：</h4>
 
 <!-- more -->
@@ -425,7 +535,7 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   <entry>
     <title type="html"><![CDATA[iOS 开发设计模式笔记（3）]]></title>
     <link href="http://billwang1990.github.io/blog/2013/12/27/12-dot-27/"/>
-    <updated>2013-12-27T05:16:21-08:00</updated>
+    <updated>2013-12-27T21:16:21+08:00</updated>
     <id>http://billwang1990.github.io/blog/2013/12/27/12-dot-27</id>
     <content type="html"><![CDATA[<p><strong>8.外观模式</strong></p>
 
@@ -579,9 +689,9 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   
   <entry>
     <title type="html"><![CDATA[MAC下安装Octopress，Cocoapods关于ruby版本的问题]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/25/3-number-post/"/>
-    <updated>2013-12-25T14:01:54-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/25/3-number-post</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/26/3-number-post/"/>
+    <updated>2013-12-26T06:01:54+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/26/3-number-post</id>
     <content type="html"><![CDATA[<p>不多说，直接上正题。
 系统是10.8.4的，没升级，黑苹果不敢升级，每次升级会很麻烦！</p>
 
@@ -604,9 +714,9 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   
   <entry>
     <title type="html"><![CDATA[iOS 开发设计模式笔记（2）]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/24/2nd-blog/"/>
-    <updated>2013-12-24T16:36:33-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/24/2nd-blog</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/25/2nd-blog/"/>
+    <updated>2013-12-25T08:36:33+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/25/2nd-blog</id>
     <content type="html"><![CDATA[<p>这篇是接着<a href="http://billwang1990.github.io/blog/2013/12/25/1st-blog/">上一篇</a></p>
 
 <h4>4.生成器模式</h4>
@@ -659,9 +769,9 @@ input source 主要是一些异步的事件，比如来自其它线程或者其�
   
   <entry>
     <title type="html"><![CDATA[iOS 开发设计模式笔记（1）]]></title>
-    <link href="http://billwang1990.github.io/blog/2013/12/24/1st-blog/"/>
-    <updated>2013-12-24T15:52:44-08:00</updated>
-    <id>http://billwang1990.github.io/blog/2013/12/24/1st-blog</id>
+    <link href="http://billwang1990.github.io/blog/2013/12/25/1st-blog/"/>
+    <updated>2013-12-25T07:52:44+08:00</updated>
+    <id>http://billwang1990.github.io/blog/2013/12/25/1st-blog</id>
     <content type="html"><![CDATA[<h4>读了《OBJECTIVE－C编程之道 IOS设计模式解析》，觉得有些东西有必要记录下来,因此有了以下的笔记:</h4>
 
 <h4>1.Prototype 原型模式</h4>

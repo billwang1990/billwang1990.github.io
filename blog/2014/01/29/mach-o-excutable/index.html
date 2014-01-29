@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>如何写podspec贡献自己的代码到cocoapods - 亚庆的 Blog</title>
+  <title>Mach-O Excutables - 亚庆的 Blog</title>
   <meta name="author" content="王亚庆">
 
   
-  <meta name="description" content="什么是cocoapods？ 做iOS开发需要用到很多三方，才开始可能很多人和我才开始一样，手动添加三方，费事费力。用了cocoapods之后，一切都变得so easy。如果还没用的同学请参考这篇大牛的介绍文章。今天我要讲的是另外一个主题。 贡献代码到cocoapods &hellip;">
+  <meta name="description" content="当我们使用xcode开发程序的时候，源文件（.h .m）会被编译成可执行文件。那么这一切到底是怎样发生的呢？下面来简单说明。 xcrun xrun是我们使用最多的一个命令行工具，这个小工具是用来运行别的工具的，比如： % clang -v 在命令行中，我们可以使用如下命令来代替上面的： % &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file">
+  <link rel="canonical" href="http://billwang1990.github.io/blog/2014/01/29/mach-o-excutable">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="亚庆的 Blog" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">如何写podspec贡献自己的代码到cocoapods</h1>
+      <h1 class="entry-title">Mach-O Excutables</h1>
     
     
       <p class="meta">
@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2014-01-06T19:27:37+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2014</time>
+<time datetime="2014-01-29T14:40:15+08:00" pubdate data-updated="true">Jan 29<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://billwang1990.github.io">Comments</a>
@@ -94,69 +94,108 @@
   </header>
 
 
-<div class="entry-content"><!--more-->
+<div class="entry-content"><p>当我们使用xcode开发程序的时候，源文件（<em>.h </em>.m）会被编译成可执行文件。那么这一切到底是怎样发生的呢？下面来简单说明。</p>
+
+<!--more-->
 
 
-<h4>什么是cocoapods？</h4>
+<h4>xcrun</h4>
 
-<p>做iOS开发需要用到很多三方，才开始可能很多人和我才开始一样，手动添加三方，费事费力。用了cocoapods之后，一切都变得so easy。如果还没用的同学请参考这篇<a href="http://blog.devtang.com/blog/2012/12/02/use-cocoapod-to-manage-ios-lib-dependency">大牛的介绍文章</a>。今天我要讲的是另外一个主题。</p>
+<p>xrun是我们使用最多的一个命令行工具，这个小工具是用来运行别的工具的，比如：</p>
 
-<h4>贡献代码到cocoapods</h4>
-
-<p>cocoapods是托管在<a href="https://github.com/cocoapods/cocoapods">github</a>上的一个开源项目，要想为它做贡献，首先你要会使用git，所以如果还不会的话，请先自学下吧。</p>
-
-<p>所有的spec都在<a href="https://github.com/CocoaPods/Specs">这里</a>,你首先要做的是需要<strong>Fork</strong>这个仓库，然后你就拥有了一个仓库的副本，这个时候在自己的dashboard就就可以看到多了一个repo，接下来以我自己为例子把repo克隆下来。</p>
-
-<pre><code>git clone https://github.com/billwang1990/Specs.git
+<pre><code>% clang -v
 </code></pre>
 
-<p>克隆好了之后，就可以向里面添加自己的代码来，首先创建了一个文件夹。</p>
+<p>在命令行中，我们可以使用如下命令来代替上面的：</p>
 
-<pre><code>cd Specs/
-mkdir yourDirName
-cd yourDirName
+<pre><code>% xcrun clang -v
 </code></pre>
 
-<p>这个时候先暂停下，对你要贡献的代码打个<strong>tag</strong></p>
+<p>xcrun将会指定clang然后传递后面的参数给它来运行。</p>
 
-<pre><code>git tag 0.0.1
+<h4>不用IDE来运行hello world</h4>
+
+<p>回到命令行中，我们创建一个文件夹并生成一个C源文件。</p>
+
+<pre><code>% mkdir ~/Desktop/objcio-command-line
+% cd !$
+% touch helloworld.c
 </code></pre>
 
-<p>然后,把tag推到你的项目的远程服务器端。</p>
+<p>接下来打开生成的C文件</p>
 
-<pre><code>git push --tags
+<pre><code>% open -e helloworld.c
 </code></pre>
 
-<p>接下来再回到之前在spec里创建的那个文件夹（yourDirName）中
-再创建一个文件夹,并且生成一个spec文件</p>
+<p>编辑它：</p>
 
-<pre><code>mkdir 0.0.1
-cd 0.0.1
-pod spec create yourSpecFileName
+<pre><code>#include &lt;stdio.h&gt;
+int main(int argc, char *argv[])
+{
+    printf("Hello World!\n");
+    return 0;
+}
 </code></pre>
 
-<p>这个时候你应该可以看到你的0.0.1文件夹多了一个yourSpecFileName.podspec文件，打开这个文件进行编辑吧。下面的就是我的podspec文件：</p>
+<p>保存后编译运行：</p>
 
-<pre><code>Pod::Spec.new do |s|
-     s.name         = "YQUpdateHelper"
-     s.version      = "0.1.0"
-     s.summary      = "YQUpdateHelper is an iOS toolkit, it can notify user if there is an new version of your app in app store."
-     s.homepage     = "https://github.com/billwang1990/YQUpdateNotification"
-     s.screenshots  = "https://github.com/billwang1990/YQUpdateNotification/blob/master/screenshot.PNG"
-     s.license      = 'MIT (LICENSE)'
-     s.author       = { "billwang1990" =&gt; "billwang1990@gmail.com" }
-     s.platform     = :ios, '6.0'
-      s.source       = { :git =&gt; "https://github.com/billwang1990/YQUpdateNotification.git", :tag =&gt; "0.1.0" }
-       s.source_files  = 'YQUpdateHelper', 'YQUpdateHelper/*.{h,m}'
-      s.resource  = "YQUpdateHelper/YQUpdateHelper.bundle"
-     s.framework  = 'Foundation'
-     s.requires_arc = true
-end
+<pre><code>% xcrun clang helloworld.c
+% ./a.out
 </code></pre>
 
-<p>OK,写完了保存，还没完事，你需要执行 <em>pod spec lint yourSpecFileName.podspec</em>检查一下你的文件内容是否写对了。</p>
+<p>这个时候命令行就会输出你熟悉的Hello World了，整个过程都在命令行完成。</p>
 
-<p>完事之后，你把仓库push到自己的远端，然后 <strong>send pull request</strong>，等待cocoapods团队merge了之后，你使用<strong>pod search</strong>就应该能找到你的代码了。</p>
+<p>在刚才的过程中，我们将helloworld.c编译成一个Mach-O的可目标文件被称作a.out。</p>
+
+<h4>Hello World and the Compiler</h4>
+
+<p>我们使用的编译器是clang。</p>
+
+<p>简单来说，编译器会将源文件生成可执行文件，这个过程由一系列步骤组成。</p>
+
+<h4>预处理</h4>
+
+<ul>
+<li><code>Tokenization</code></li>
+<li><code>Macro expansion</code></li>
+<li><code>#include expansion</code></li>
+</ul>
+
+
+<h4>语义分析</h4>
+
+<ul>
+<li><code>Translates preprocessor tokens into a parse tree</code></li>
+<li><code>Applies semantic analysis to the parse tree</code></li>
+<li><code>Outputs an Abstract Syntax Tree (AST)</code></li>
+</ul>
+
+
+<h4>生成代码并优化</h4>
+
+<ul>
+<li><code>Translates an AST into low-level intermediate code (LLVM IR)</code></li>
+<li><code>Responsible for optimizing the generated code</code></li>
+<li><code>target-specific code generation</code></li>
+<li><code>Outputs assembly</code></li>
+</ul>
+
+
+<h4>汇编</h4>
+
+<ul>
+<li><code>Translates assembly code into a target object file</code></li>
+</ul>
+
+
+<h4>链接</h4>
+
+<ul>
+<li><code>Merges multiple object files into an executable (or a dynamic library)</code></li>
+</ul>
+
+
+<p>简单的记录了一下几个步骤，更多详细的内容请查看<a href="http://www.objc.io/issue-6/mach-o-executables.html">这篇文章</a>。</p>
 </div>
 
 
@@ -179,7 +218,7 @@ end
   
 
 
-<time datetime="2014-01-06T19:27:37+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2014</time>
+<time datetime="2014-01-29T14:40:15+08:00" pubdate data-updated="true">Jan 29<span>th</span>, 2014</time>
       
 
 
@@ -194,10 +233,8 @@ end
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/01/04/about-swizzling/" title="Previous Post: 关于swizzling">&laquo; 关于swizzling</a>
+        <a class="basic-alignment left" href="/blog/2014/01/13/grand-central-dispatch/" title="Previous Post: GCD（Grand Central Dispatch）">&laquo; GCD（Grand Central Dispatch）</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/01/13/grand-central-dispatch/" title="Next Post: GCD（Grand Central Dispatch）">GCD（Grand Central Dispatch） &raquo;</a>
       
     </p>
   </footer>
@@ -263,8 +300,8 @@ end
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file/';
-        var disqus_url = 'http://billwang1990.github.io/blog/2014/01/06/how-to-write-cocoapods-spec-file/';
+        var disqus_identifier = 'http://billwang1990.github.io/blog/2014/01/29/mach-o-excutable/';
+        var disqus_url = 'http://billwang1990.github.io/blog/2014/01/29/mach-o-excutable/';
         var disqus_script = 'embed.js';
       
     (function () {
