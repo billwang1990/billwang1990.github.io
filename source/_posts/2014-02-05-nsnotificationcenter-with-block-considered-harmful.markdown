@@ -298,7 +298,7 @@ No? So essentially this is compilerese for “We changed it.”
 
 回到ARC以前，使用*__block*关键字将会阻止一个block去ratain一个变量。然而在ARC的世界中，我们有一系列的关于内存的关键字：*__strong*, *__weak*, *__autoreleasing*, *__unsafe_unretained*… 当介绍这些的时候，他们将*__block*从这些关键字中分离出去，所以你可以像这样写`__unsafe_unretained __block id foo`如果你喜欢的话。和其他类型的变量一样，默认的，*__block*变量隐式的内存关键字是*__strong*。
 
-这就是为什么它没有起作用的原因。现在，你可能会说，把*__counterObj* 用*__weak*来修饰。当然，它不再拥有强引用。我们有了一个纸箱counter的弱引用，block将会使用它，会给它设置一个新的值。
+这就是为什么它没有起作用的原因。现在，你可能会说，把*__counterObj* 用*__weak*来修饰。当然，它不再拥有强引用。我们有了一个指向counter的弱引用，block将会使用它，会给它设置一个新的值。
 
 接下来继续演示：
 
