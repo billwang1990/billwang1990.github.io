@@ -398,7 +398,7 @@
 
 <p>回到ARC以前，使用<em>__block</em>关键字将会阻止一个block去ratain一个变量。然而在ARC的世界中，我们有一系列的关于内存的关键字：<em>__strong</em>, <em>__weak</em>, <em>__autoreleasing</em>, <em>__unsafe_unretained</em>… 当介绍这些的时候，他们将<em>__block</em>从这些关键字中分离出去，所以你可以像这样写<code>__unsafe_unretained __block id foo</code>如果你喜欢的话。和其他类型的变量一样，默认的，<em>__block</em>变量隐式的内存关键字是<em>__strong</em>。</p>
 
-<p>这就是为什么它没有起作用的原因。现在，你可能会说，把<em>__counterObj</em> 用<em>__weak</em>来修饰。当然，它不再拥有强引用。我们有了一个纸箱counter的弱引用，block将会使用它，会给它设置一个新的值。</p>
+<p>这就是为什么它没有起作用的原因。现在，你可能会说，把<em>__counterObj</em> 用<em>__weak</em>来修饰。当然，它不再拥有强引用。我们有了一个指向counter的弱引用，block将会使用它，会给它设置一个新的值。</p>
 
 <p>接下来继续演示：</p>
 
