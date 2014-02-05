@@ -9,7 +9,7 @@
   <meta name="author" content="王亚庆">
 
   
-  <meta name="description" content="当我们使用xcode开发程序的时候，源文件（.h .m）会被编译成可执行文件。那么这一切到底是怎样发生的呢？下面来简单说明。 ">
+  <meta name="description" content="本文是这篇原文的翻译，初次翻译，水平有限，望指正，同时也请尊重本人的劳动成果，转载请注明出处。 (注：有些地方翻译的感觉不好，贴上了原文。) 在过去，我们想要注册接受一个notification通常使用如下的方法： -[NSNotificationCenter addObserver: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/05/nsnotificationcenter-with-block-considered-harmful/">[译]NSNotificationCenter With Block Considered Harmful</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-05T10:00:00+08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/02/05/nsnotificationcenter-with-block-considered-harmful/#disqus_thread"
+             data-disqus-identifier="http://billwang1990.github.io/blog/2014/02/05/nsnotificationcenter-with-block-considered-harmful/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是这篇<a href="http://sealedabstract.com/code/nsnotificationcenter-with-blocks-considered-harmful/">原文</a>的翻译，初次翻译，水平有限，望指正，同时也请尊重本人的劳动成果，转载请注明出处。</p>
+
+<p>(注：有些地方翻译的感觉不好，贴上了原文。)</p>
+
+<p>在过去，我们想要注册接受一个notification通常使用如下的方法：</p>
+
+<pre><code>-[NSNotificationCenter  addObserver:selector:name:object:]
+</code></pre>
+
+<p>换句话说，就是target-action模式。当收到notification的时候，就会调用相应的selector。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/05/nsnotificationcenter-with-block-considered-harmful/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -468,60 +521,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/25/2nd-blog/">iOS 开发设计模式笔记（2）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-25T08:36:33+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/12/25/2nd-blog/#disqus_thread"
-             data-disqus-identifier="http://billwang1990.github.io/blog/2013/12/25/2nd-blog/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这篇是接着<a href="http://billwang1990.github.io/blog/2013/12/25/1st-blog/">上一篇</a></p>
-
-<h4>4.生成器模式</h4>
-
-<pre><code> 定义：
- 将一个复杂对象的构建与它的表现分离，使得同样的构建过程可以创建不同的表现。
- 适用情景：
- 需要创建涉及各种部件的复杂对象。创建对象的算法应该独立于部件的装配方式。常见例子是构建组合对象。
- 构建过程需要以不同的方式构建对象。
- 将做什么 和 怎么做 两个问题分开解决。
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/12/25/2nd-blog/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -537,6 +536,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/05/nsnotificationcenter-with-block-considered-harmful/">[译]NSNotificationCenter With Block Considered Harmful</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/29/mach-o-excutable/">Mach-O Excutables</a>
       </li>
     
@@ -550,10 +553,6 @@
     
       <li class="post">
         <a href="/blog/2014/01/04/about-swizzling/">关于swizzling</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/04/textkit/">Text Kit的简单介绍</a>
       </li>
     
   </ul>
