@@ -9,7 +9,7 @@
   <meta name="author" content="王亚庆">
 
   
-  <meta name="description" content="ios随笔 最近的项目没有使用ARC，周末闲下来用检测了一下memory leak，发现有好些粗心犯的错误。 简单的回一下，ios中以 + alloc/new/copy/mutableCopy开头的方法返回的对象将被调用者持有， 意味着你需要对他进行release。 另外，比如[NSArray &hellip;">
+  <meta name="description" content="今天的工作中遇到一个bug（非ARC），就是访问了一个被释放的对象。我找了好久查看是否被意外release之类的原因，都没有找到结果。后来我突然想到了一个点，是否是对象释放的顺序造成的。 我的程序中大概是这样的，viewcontroller的view中添加了一个tableview， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/21/about-ios-release/">Ios 中内存释放顺序</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-21T22:59:53+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/21/about-ios-release/#disqus_thread"
+             data-disqus-identifier="http://billwang1990.github.io/blog/2014/03/21/about-ios-release/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天的工作中遇到一个bug（非ARC），就是访问了一个被释放的对象。我找了好久查看是否被意外release之类的原因，都没有找到结果。后来我突然想到了一个点，是否是对象释放的顺序造成的。</p>
+
+<p>我的程序中大概是这样的，viewcontroller的view中添加了一个tableview，然后tableview包含了一些subview。</p>
+
+<p>我猜测是因为tableview持有那些subview的引用计数，那么如果我先释放tableview的话，tableview对subview的引用也就随之消失，那么就可能导致subview被提前释放，但是这个时候原本指向subview的那些指针并没有被置为nil，还是指向原来的地址，那么这个时候再进行release就会crash。</p>
+
+<p>后来为了证明我得猜测，我修改了release的顺序，这个时候就没有再crash了。</p>
+
+<p>另外[super dealloc]一定要写在最后，有点晚了，原因自己google吧，哈哈~~</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -468,50 +515,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/30/nsrunloop-issue/">关于NSRunloop的学习和理解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-30T02:49:38+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2013</time>
-        
-           | <a href="/blog/2013/12/30/nsrunloop-issue/#disqus_thread"
-             data-disqus-identifier="http://billwang1990.github.io/blog/2013/12/30/nsrunloop-issue/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>NSRunloop是iOS中比较重要的一个东西，有必要对它进行学习理解之后做一些记录：</h4>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/12/30/nsrunloop-issue/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -527,6 +530,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/03/21/about-ios-release/">Ios 中内存释放顺序</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/03/17/20140317/">20140317</a>
       </li>
     
@@ -540,10 +547,6 @@
     
       <li class="post">
         <a href="/blog/2014/01/29/mach-o-excutable/">Mach-O Excutables</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/13/grand-central-dispatch/">GCD（Grand Central Dispatch）</a>
       </li>
     
   </ul>
