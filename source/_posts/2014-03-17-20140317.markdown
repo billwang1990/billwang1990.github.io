@@ -1,0 +1,18 @@
+---
+layout: post
+title: "20140317"
+date: 2014-03-17 19:57:38 +0800
+comments: true
+categories: 
+---
+
+###ios随笔
+
+最近的项目没有使用ARC，周末闲下来用检测了一下memory leak，发现有好些粗心犯的错误。
+
+简单的回一下，ios中以 *+ alloc/new/copy/mutableCopy*开头的方法返回的对象将被调用者持有， 意味着你需要对他进行release。
+
+另外，比如[NSArray array]等类似的方法返回的对象是一个autorelease的，有可能你的程序不会crash，但是你需要retain这个对象，以保证它不会被清除掉了。
+
+最近比较忙，抽空看了一下ReactiveCocoa，这是一个函数式编程的framework，让你以一种与以往不同的方式书写代码，这里有很好的入门文章，传送门[在此](http://www.raywenderlich.com/55384/ios-7-best-practices-part-1)。
+
