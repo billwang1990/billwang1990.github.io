@@ -7,6 +7,7 @@ categories:
 ---
 
 今天在看Facebook的[KVOController](https://github.com/facebook/KVOController)源码的时候，里面除了使用 NSAssert以外 还使用了 NSCAssert这个更少人用的。 就想起了之前遇到的一个由它引发的问题，顺便记录回忆下。
+<!--more-->
 
 在苹果的SDK中可以看到这两个都是定义的宏
 
