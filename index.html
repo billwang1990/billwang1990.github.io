@@ -9,7 +9,7 @@
   <meta name="author" content="王亚庆">
 
   
-  <meta name="description" content="今天的工作中遇到一个bug（非ARC），就是访问了一个被释放的对象。我找了好久查看是否被意外release之类的原因，都没有找到结果。后来我突然想到了一个点，是否是对象释放的顺序造成的。 我的程序中大概是这样的，viewcontroller的view中添加了一个tableview， &hellip;">
+  <meta name="description" content="今天在看Facebook的KVOController源码的时候，里面除了使用 NSAssert以外 还使用了 NSCAssert这个更少人用的。 就想起了之前遇到的一个由它引发的问题，顺便记录回忆下。 在苹果的SDK中可以看到这两个都是定义的宏 NSAssert 的定义如下： #define &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,79 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/26/nsassert-vc-nscassert/">小心NSAssert</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T22:28:30+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/03/26/nsassert-vc-nscassert/#disqus_thread"
+             data-disqus-identifier="http://billwang1990.github.io/blog/2014/03/26/nsassert-vc-nscassert/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天在看Facebook的<a href="https://github.com/facebook/KVOController">KVOController</a>源码的时候，里面除了使用 NSAssert以外 还使用了 NSCAssert这个更少人用的。 就想起了之前遇到的一个由它引发的问题，顺便记录回忆下。</p>
+
+<p>在苹果的SDK中可以看到这两个都是定义的宏</p>
+
+<p>NSAssert 的定义如下：</p>
+
+<pre><code>#define NSAssert(condition, desc, ...)  \
+do {                \
+__PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
+if (!(condition)) {     \
+    [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd \
+    object:self file:[NSString stringWithUTF8String:__FILE__] \
+        lineNumber:__LINE__ description:(desc), ##__VA_ARGS__]; \
+}               \
+    __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
+} while(0)
+#endif
+</code></pre>
+
+<p>NSCassert的定义如下：</p>
+
+<pre><code>#define NSCAssert(condition, desc, ...) \
+do {                \
+__PRAGMA_PUSH_NO_EXTRA_ARG_WARNINGS \
+if (!(condition)) {     \
+    [[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithUTF8String:__PRETTY_FUNCTION__] \
+    file:[NSString stringWithUTF8String:__FILE__] \
+        lineNumber:__LINE__ description:(desc), ##__VA_ARGS__]; \
+}               \
+    __PRAGMA_POP_NO_EXTRA_ARG_WARNINGS \
+} while(0)
+#endif
+</code></pre>
+
+<p>之所以要说小心使用NSAssert是因为大家可以看到它的定义中出现了一个<em>self</em>, 那么有可能在你的block中你会发现你明明没有self的strong引用，但是仍然出现了循环引用就看看你是否使用了NSAssert这样的小东西，有可能稍微疏忽用了它，这个宏被展开之后就持有了self，那么有可能就会出现让你百思不得其解的问题。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -473,48 +546,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/03/new-return-type-instancetype/">iOS7 新的值类型 Instancetype</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-03T09:01:56+08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time>
-        
-           | <a href="/blog/2014/01/03/new-return-type-instancetype/#disqus_thread"
-             data-disqus-identifier="http://billwang1990.github.io/blog/2014/01/03/new-return-type-instancetype/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>随着新的xcode和iOS7发布，iOS新增了一个类型instancetype. 但是它只能被用作返回值的类型，提示编译器方法的返回值的类型和调用此方法的类一致。</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/03/new-return-type-instancetype/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -530,6 +561,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/03/26/nsassert-vc-nscassert/">小心NSAssert</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/03/21/about-ios-release/">Ios 中内存释放顺序</a>
       </li>
     
@@ -543,10 +578,6 @@
     
       <li class="post">
         <a href="/blog/2014/02/05/nsnotificationcenter-with-block-considered-harmful/">[译]NSNotificationCenter With Block Considered Harmful</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/29/mach-o-excutable/">Mach-O Excutables</a>
       </li>
     
   </ul>
