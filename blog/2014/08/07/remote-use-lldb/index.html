@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS 开发设计模式笔记（2） - 亚庆的 Blog</title>
+  <title>使用LLDB远程调试APP - 亚庆的 Blog</title>
   <meta name="author" content="王亚庆">
 
   
-  <meta name="description" content="这篇是接着上一篇 4.生成器模式 定义： 将一个复杂对象的构建与它的表现分离，使得同样的构建过程可以创建不同的表现。 适用情景： 需要创建涉及各种部件的复杂对象。创建对象的算法应该独立于部件的装配方式。常见例子是构建组合对象。 构建过程需要以不同的方式构建对象。 将做什么 和 怎么做 &hellip;">
+  <meta name="description" content="背景： 因为最近要开始学习一些iOS逆向的一些东西，调试别人的app自然是必不可少的工作，这个时候调试利器GDB和LLDB自然浮现在脑袋里。可是试验后发现用GDB调试并不好用，而且苹果推的也是LLDB，所以需要使用LLDB来进行调试工作。使用LLDB就不像使用GDB进行调试那么方便， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://billwang1990.github.io/blog/2013/12/25/2nd-blog">
+  <link rel="canonical" href="http://billwang1990.github.io/blog/2014/08/07/remote-use-lldb">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="亚庆的 Blog" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS 开发设计模式笔记（2）</h1>
+      <h1 class="entry-title">使用LLDB远程调试APP</h1>
     
     
       <p class="meta">
@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2013-12-25T08:36:33+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
+<time datetime="2014-08-07T23:29:16+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://billwang1990.github.io">Comments</a>
@@ -94,53 +94,59 @@
   </header>
 
 
-<div class="entry-content"><p>这篇是接着<a href="http://billwang1990.github.io/blog/2013/12/25/1st-blog/">上一篇</a></p>
-
-<h4>4.生成器模式</h4>
-
-<pre><code> 定义：
- 将一个复杂对象的构建与它的表现分离，使得同样的构建过程可以创建不同的表现。
- 适用情景：
- 需要创建涉及各种部件的复杂对象。创建对象的算法应该独立于部件的装配方式。常见例子是构建组合对象。
- 构建过程需要以不同的方式构建对象。
- 将做什么 和 怎么做 两个问题分开解决。
-</code></pre>
-
-<!-- more -->
+<div class="entry-content"><!--more-->
 
 
-<h4>5.单例模式</h4>
+<h4>背景：</h4>
 
-<pre><code> 定义:保证一个类仅有一个实例，并且提供一个访问它的全局访问点。
- 适用情形:
- 类只能有一个实例，而且必须从一个为人熟知的访问点对其进行访问，比如工厂方法。
- 这个唯一的实例只能通过子类化进行扩展，而且扩展的对象不会破坏客户端代码。
-</code></pre>
+<p>因为最近要开始学习一些iOS逆向的一些东西，调试别人的app自然是必不可少的工作，这个时候调试利器GDB和LLDB自然浮现在脑袋里。可是试验后发现用GDB调试并不好用，而且苹果推的也是LLDB，所以需要使用LLDB来进行调试工作。使用LLDB就不像使用GDB进行调试那么方便，使用GDB的话直接在Cydia里面安装好GDB之后，ssh到你的设备就可以开始工作了，使用LLDB远程调试你越狱设备上的APP稍微麻烦一点。</p>
 
-<h4>6.适配器模式</h4>
+<h4>准备工作：</h4>
 
-<pre><code> 适配器模式，用于连接两种不同种类的对象，使其毫无问题地协同工作，有时它也称为包装起"wrapper"。
- 基本上有两种实现适配器的方式:
- 1.通过集成来适配来适配两个接口，这种称为类适配器，多通过多重继承来实现，但是OBJ-C没有多重继承，可以通过协议来实现。
- 2.对象适配器。与类适配器不同，对象适配器不继承被适配者，而是组合一个对它的引用。
- 定义：
- 将一个类的接口转换成客户希望的另一个接口，适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
- 适用情形：
- 已有的类的接口和需求不匹配。
- 想要一个可复用的类，该类能够同可能带有不兼容接口的其它类协作。
- 需要适配一个类的几个不同子类，可是让每一个子类去子类化一个类适配器又不现实。那么可以通过使用对象适配器（也叫委托）来适配其父类的接口。
-</code></pre>
+<ul>
+<li>一台越狱了的设备</li>
+<li>一台装有Xcode的MAC</li>
+</ul>
 
-<h4>7.桥接模式</h4>
 
-<pre><code> 定义：将抽象部分与它的实现部分分离，使它们都可以独立的变化。
- 适用情形：
- 不想在抽象与其实现之间实现固定的绑定关系。
- 抽象及其实现都应该可以通过子类化独立进行扩展。
- 对抽象的实现进行修改不应该影响客户端的代码。
- 如果每个实现需要额外的子类以细化抽象，择说明有必要把他们分成两个部分。
- 想在带有不同抽象接口的多个对象之间共享一个实现。
-</code></pre>
+<h4>调试步骤：</h4>
+
+<ol>
+<li><p>需要挂载Xcode的developer 磁盘镜像</p>
+
+<p><code>
+hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneO S.platform/DeviceSupport/7.1\ (11D167)/DeveloperDiskImage.dmg
+</code></p></li>
+<li><p>这个时候将usr/bin目录里的debugserver拷贝出来（我直接拖到的桌面）</p></li>
+<li><p>创建一个plist文件，我用xcode创建了的 entitlements.plist放在桌面，里面创建了下面4个key，都是YES。</p>
+
+<ul>
+<li>com.apple.springboard.debugapplications</li>
+<li>run-unsigned-code</li>
+<li>get-task-allow</li>
+<li>task_for_pid-allow</li>
+</ul>
+</li>
+<li><p>进行签名</p>
+
+<p><code>codesign -s - --entitlements entitlements.plist -f debugserver</code></p></li>
+<li><p>签名完成之后将debugserver复制到你的越狱设备上面去，你可以用scp，也可以用iTool等图形界面工具，随你喜好。</p></li>
+<li><p>ssh到你的设备去，然后执行下面的命令：</p>
+
+<p><code>./debugserver *.(端口号) -a "你要调试的app的name"</code></p></li>
+<li><p>在你的MAC上新开一个terminal，然后输入 <em>lldb</em> 命令，接着输入</p>
+
+<p><code>process connect connect://192.168.1.102</code> （注：记得换成你自己的IP）</p></li>
+<li><p>开始发挥LLDB的威力吧，啊哈哈哈哈哈。</p></li>
+</ol>
+
+
+<p>参考链接：</p>
+
+<ul>
+<li><a href="http://iphonedevwiki.net/index.php/Debugserver">http://iphonedevwiki.net/index.php/Debugserver</a></li>
+</ul>
+
 </div>
 
 
@@ -163,7 +169,7 @@
   
 
 
-<time datetime="2013-12-25T08:36:33+08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2013</time>
+<time datetime="2014-08-07T23:29:16+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2014</time>
       
 
 
@@ -178,10 +184,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/12/25/1st-blog/" title="Previous Post: iOS 开发设计模式笔记（1）">&laquo; iOS 开发设计模式笔记（1）</a>
+        <a class="basic-alignment left" href="/blog/2014/03/31/nshashtable-and-nsmaptable/" title="Previous Post: NSHashTable &amp; NSMapTable">&laquo; NSHashTable &amp; NSMapTable</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/12/26/3-number-post/" title="Next Post: MAC下安装Octopress，Cocoapods关于ruby版本的问题">MAC下安装Octopress，Cocoapods关于ruby版本的问题 &raquo;</a>
       
     </p>
   </footer>
@@ -247,8 +251,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://billwang1990.github.io/blog/2013/12/25/2nd-blog/';
-        var disqus_url = 'http://billwang1990.github.io/blog/2013/12/25/2nd-blog/';
+        var disqus_identifier = 'http://billwang1990.github.io/blog/2014/08/07/remote-use-lldb/';
+        var disqus_url = 'http://billwang1990.github.io/blog/2014/08/07/remote-use-lldb/';
         var disqus_script = 'embed.js';
       
     (function () {
