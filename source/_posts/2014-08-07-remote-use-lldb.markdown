@@ -42,8 +42,9 @@ categories:
  
  6. ssh到你的设备去，然后执行下面的命令：
  
- 	`./debugserver *.(端口号) -a "你要调试的app的name"`
+ 	~~`./debugserver *.(端口号) -a "你要调试的app的name"`~~
  	
+ 	`./debugserver *.(端口号) -a "你要调试的app的name"`
  7. 在你的MAC上新开一个terminal，然后输入 *lldb* 命令，接着输入
  
  	`process connect connect://192.168.1.102` （注：记得换成你自己的IP）
