@@ -133,9 +133,9 @@ hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneO S.pl
 <li><p>签名完成之后将debugserver复制到你的越狱设备上面去，你可以用scp，也可以用iTool等图形界面工具，随你喜好。</p></li>
 <li><p>ssh到你的设备去，然后执行下面的命令：</p>
 
-<p><del><code>./debugserver *.(端口号) -a "你要调试的app的name"</code></del></p>
+<p><del><code>./debugserver *.(端口号) -a "你要调试的app的name"</code></del>(写错了,下面这行才对)</p>
 
-<p><code>./debugserver *.(端口号) -a "你要调试的app的name"</code></p></li>
+<p><code>./debugserver *:(端口号) -a "你要调试的app的name"</code></p></li>
 <li><p>在你的MAC上新开一个terminal，然后输入 <em>lldb</em> 命令，接着输入</p>
 
 <p><code>process connect connect://192.168.1.102</code> （注：记得换成你自己的IP）</p></li>
