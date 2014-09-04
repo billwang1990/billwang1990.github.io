@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://billwang1990.github.io/sitemap.xml 
