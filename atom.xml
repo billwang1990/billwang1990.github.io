@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2014-09-29T22:51:10+08:00</updated>
+  <updated>2014-09-29T23:21:21+08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -55,7 +55,9 @@
 <p><img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/4.png" alt="4png" /></p>
 
 <p>&#160; &#160; &#160; &#160;我圈起来的这个部分从字面意思很明显就是在判断对象是不是假的，真的的话就开始下载。OK，那就先从这里入手，顺势在hopper中找到这个isDummy是TDVideo的一个属性，那么我赶快写了一个tweak把这个属性给设置为NO。只做好deb安装包在ipad上安装好了之后，我满心欢喜的准备见证奇迹。MD，点击虽然不会提示我不能下载，但是还是不能下载啊，亲~
-&#160; &#160; &#160; &#160;那么我估计在那个downloadVideo里面还有判断的操作，继续在hopper里面分析。果然那个方法里面还进行了是否已经下载过的判断操作，没有被下载过会调用它的delegate 的seriesDownloadSelectedRecordList方法。我接下来去查看在TDDownloadPannelView 里的这个方法。这个方法挺长的，在这个方法里我找到了MBProgressHUD的字眼，看了app就是使用的这个三方来提示用户，那么我估计这个方法差不多就是我想要找的地方了。这一段代码里，有一个单词引起了我的注意，就是limit，因为我发现有几个if分支都是在对对象的这个属性进行判断，为3、4或者4都不会进行下载，然后进行错误提示或者别的相关提示。另外从字面上来看，这个应该也是表明是否限制的意思。TDBaseVideo里找到了这个属性，是一个int类型的属性。我想这个值应该直接从服务器获取来的。于是，打开Charles抓包看看，如下图，很清晰的看到了limit这个字段为1。</p>
+&#160; &#160; &#160; &#160;那么我估计在那个downloadVideo里面还有判断的操作，继续在hopper里面分析。果然那个方法里面还进行了是否已经下载过的判断操作，没有被下载过会调用它的delegate 的seriesDownloadSelectedRecordList方法。我接下来去查看在TDDownloadPannelView 里的这个方法。这个方法挺长的，在这个方法里我找到了MBProgressHUD的字眼，看来app就是使用的这个三方来提示用户，那么我估计这个方法差不多就是我想要找的地方了。</p>
+
+<p>&#160; &#160; &#160; &#160;这一段代码里，有一个单词引起了我的注意，就是limit，因为我发现有几个if分支都是在对对象的这个属性进行判断，为3、1或者4都不会进行下载，然后进行错误提示或者别的相关提示。另外从字面上来看，这个应该也是表明是否限制的意思。TDBaseVideo里找到了这个属性，是一个int类型的属性。我想这个值应该直接从服务器获取来的。于是，打开Charles抓包看看，如下图，很清晰的看到了limit这个字段为1。</p>
 
 <p><img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/5.png" alt="5png" /></p>
 
