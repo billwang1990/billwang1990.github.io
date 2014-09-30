@@ -4,7 +4,7 @@
   <title><![CDATA[亚庆的 Blog]]></title>
   <link href="http://billwang1990.github.io/atom.xml" rel="self"/>
   <link href="http://billwang1990.github.io/"/>
-  <updated>2014-09-30T14:53:59+08:00</updated>
+  <updated>2014-09-30T15:48:42+08:00</updated>
   <id>http://billwang1990.github.io/</id>
   <author>
     <name><![CDATA[王亚庆]]></name>
@@ -34,35 +34,40 @@
 
 <p> （马铃薯的客户端版本号我就不透露了，现在是2014年9月，最新的客户端）</p>
 
-<h6>逆向开始：</h6>
+<h5>逆向开始：</h5>
 
-<p>&#160; &#160; &#160; &#160;首先，我需要用class-dump获取到它所有的头文件，可是在AppStore中下载的应用是加了壳的。你如果直接用class-dump去获取头文件的话，得到的结果就是“呵呵”。你可以去三方应用市场找到没有壳的ipa文件，也可以自己砸壳，我懒得去找ipa文件了，直接用dumpdecrypted砸开。接下来你才能用class-dump，不过注意一下这里的可执行文件是包含了多个架构的（armv7,armv7s），你需要指明你需要的架构才能获取到你想要的头文件信息。不管三七二十一，先在Xcode建立一个新的project，把获取到的头文件丢进去再说。</p>
+<p>&#160; &#160; &#160; &#160;首先，我需要用class-dump获取到它所有的头文件，可是在AppStore中下载的应用是加了壳的。你如果直接用class-dump去获取头文件的话，得到的结果就是“呵呵”。你可以去三方应用市场找到没有壳的ipa文件，也可以自己砸壳，我懒得去找ipa文件了，直接用dumpdecrypted砸开。接下来才能用class-dump，不过注意一下这里的可执行文件是包含了多个架构的（armv7,armv7s），你需要指明你需要的架构才能获取到你想要的头文件信息不。砸开之后，先在Xcode建立一个新的project，把获取到的头文件丢进去再说。</p>
 
-<p>&#160; &#160; &#160; &#160;接下来，我使用了Cycript帮助我分析。我需要使用它勾上你想分析的应用，先使用ps命令找到app的进程号为1699，然后执行cycript -p 1699 就成功勾上了这个进程。</p>
+<p>&#160; &#160; &#160; &#160;接下来，我使用了<code>Cycript</code>帮助我分析。需要使用它勾上你想分析的应用，先使用ps命令找到app的进程号为1699，然后执行<code>cycript -p 1699</code> 就成功勾上了这个进程。</p>
 
-<p>&#160; &#160; &#160; &#160;然后我进入视频播放界面，如下图，你会发现点击缓存之后弹出剧集下载界面上，按钮是灰色的中间还有一条杠，表示不能下载。于是，我需要弄清楚现在界面上是哪一个ViewController。
+<p>&#160; &#160; &#160; &#160;然后我进入视频播放界面，你会发现点击缓存按钮之后弹出的剧集下载界面上，按钮是灰色的中间还有一条杠，表示不能下载。于是，我需要弄清楚现在界面上是哪一个ViewController。
 <img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/1.png" alt="1png" /></p>
 
 <p>&#160; &#160; &#160; &#160;通过观察，我发现下载面板是通过一个动画从屏幕底部加载到界面上的，应该是一个封装了相关操作的一个subview，那么先把controller的subview打印出来看看再说。
-<img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/2.png" alt="2png" />
-&#160; &#160; &#160; &#160;一眼就看到数组最后一个TDDownloadPannelView，从字面上理解就应该知道这个就是展现在眼前的下载界面。到Xcode中查看它的头文件，我首先去找的是看它的方法中是否有有download的字眼，没有任何发现。说明还没有查找到根源。我继续查看它的成员变量。其中有两个subview引起了我的注意，一个SeriesTableView，一个SeriesGridView。根据当前界面的布局方式，我判断当前界面上是一个SeriesGridView，接下来去看它的头文件。
+<img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/2.png" alt="2png" /></p>
+
+<p>&#160; &#160; &#160; &#160;这里很容易看到数组最后一个是一个TDDownloadPannelView的实例，从字面上理解就应该知道这个就是展现在眼前的下载界面。到Xcode中查看它的头文件，我首先去找的是看它的方法中是否有有download的字眼，没有任何发现。说明还没有查找到根源。我继续查看它的成员变量。其中有两个subview引起了我的注意，一个SeriesTableView，一个SeriesGridView。根据当前界面的布局方式，我判断当前界面上是一个SeriesGridView，接下来去看它的头文件。
 <img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/3.png" alt="3png" /></p>
 
-<p>&#160; &#160; &#160; &#160;这里逐个看，我的目光停留在了willTapOnItemAtIndex 和didTapOnItemAtIndex这两个方法上。接下来我决定去看一下didTapOnItemAtIndex这个方法（原因是我通过操作发现下载事件是在我点击之后手指离开屏幕才会触发，所以我优先看这个方法）。
-这个时候我使用Hopper来帮助我分析，有钱的土豪可以使用IDA（我连Hopper都用的试用版本，说多了都是泪）。
-&#160; &#160; &#160; &#160;把APP丢进hopper后定位到这个方法去分析，我找到了这个地方。</p>
+<p>&#160; &#160; &#160; &#160;这里逐个看，我的目光停留在了<code>willTapOnItemAtIndex</code>和didTapOnItemAtIndex这两个方法上。接下来我决定去看一下<code>didTapOnItemAtIndex</code>这个方法。
+这个时候我使用Hopper来帮助我分析，有钱的土豪可以使用IDA。</p>
 
-<p><img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/4.png" alt="4png" /></p>
+<p>&#160; &#160; &#160; &#160;把APP丢进hopper后定位到这个方法去分析，我找到了这个地方。
+<img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/4.png" alt="4png" /></p>
 
-<p>&#160; &#160; &#160; &#160;我圈起来的这个部分从字面意思很明显就是在判断对象是不是假的，真的的话就开始下载。OK，那就先从这里入手，顺势在hopper中找到这个isDummy是TDVideo的一个属性，那么我赶快写了一个tweak把这个属性给设置为NO。只做好deb安装包在ipad上安装好了之后，我满心欢喜的准备见证奇迹。MD，点击虽然不会提示我不能下载，但是还是不能下载啊，亲~
-&#160; &#160; &#160; &#160;那么我估计在那个downloadVideo里面还有判断的操作，继续在hopper里面分析。果然那个方法里面还进行了是否已经下载过的判断操作，没有被下载过会调用它的delegate 的seriesDownloadSelectedRecordList方法。我接下来去查看在TDDownloadPannelView 里的这个方法。这个方法挺长的，在这个方法里我找到了MBProgressHUD的字眼，看来app就是使用的这个三方来提示用户，那么我估计这个方法差不多就是我想要找的地方了。</p>
+<p>&#160; &#160; &#160; &#160;我圈起来的这个部分从字面意思看应该就是在判断对象是不是假的，真的话就开始下载。OK，那就先从这里入手，接着在hopper中找到这个<code>isDummy</code>是<code>TDVideo</code>的一个属性，那么我赶快写了一个<code>tweak</code>把这个属性的<code>getter</code>方法设置为一直返回<code>NO</code>。制作好deb安装包在ipad上安装好了之后，我满心欢喜的准备见证奇迹。结果，点击下载按钮还是不能下载啊，亲~</p>
 
-<p>&#160; &#160; &#160; &#160;这一段代码里，有一个单词引起了我的注意，就是limit，因为我发现有几个if分支都是在对对象的这个属性进行判断，为3、1或者4都不会进行下载，然后进行错误提示或者别的相关提示。另外从字面上来看，这个应该也是表明是否限制的意思。TDBaseVideo里找到了这个属性，是一个int类型的属性。我想这个值应该直接从服务器获取来的。于是，打开Charles抓包看看，如下图，很清晰的看到了limit这个字段为1。</p>
+<p>&#160; &#160; &#160; &#160;那么我估计在那个downloadVideo里面还有判断的操作，继续在hopper里面分析。果然那个方法里面还进行了是否已经下载过的判断操作，没有被下载过的才会调用它的delegate的seriesDownloadSelectedRecordList方法。我接下来去查看在TDDownloadPannelView 里的这个方法。这个方法挺长的，在这个方法里我还找到了MBProgressHUD的字眼，看来app就是使用的这个三方来提示用户的，那么我估计这个方法差不多就是我想要找的地方了。</p>
+
+<p>&#160; &#160; &#160; &#160;这一段代码里，有一个单词<code>limit</code>引起了我的注意，因为我发现有几个if分支都是在对对象的这个属性进行判断，为3、1或者4都不会进行下载，然后进行错误提示或者别的相关提示。另外从字面上来看，这个应该也是表明是否限制的意思。<code>TDBaseVideo</code>里找到了这个属性，是一个int类型的属性。我想这个值应该直接从服务器获取来的。于是，打开Charles抓包看看，如下图，很清晰的看到了<code>limit</code>这个字段为1。</p>
 
 <p><img src="https://raw.githubusercontent.com/billwang1990/PostImageSource/master/5.png" alt="5png" /></p>
 
-<p>&#160; &#160; &#160; &#160;我赶紧找了一个能下载的视频进行抓包，发现这个字段为0。那么我在tweak中继续hook了这个属性，让它一直返回0。生成deb安装到机器上看效果，大工告成，想看的视频可以下载了。
-&#160; &#160; &#160; &#160;最后，由于时间关系，一些太过于细节的东西我并没有过多介绍，如果有问题，直接联系我就好QQ:563691569。</p>
+<p>&#160; &#160; &#160; &#160;我赶紧找了一个能下载的视频进行抓包，发现它的这个字段的值为0。那么我在tweak中继续hook了<code>TDBaseVideo</code>的这个属性，让它一直返回0。生成deb安装到机器上看效果~~</p>
+
+<p>&#160; &#160; &#160; &#160;大工告成，想看的视频可以下载了。</p>
+
+<p>&#160; &#160; &#160; &#160;最后，由于时间关系，一些太过于细节的东西我并没有过多介绍，如果有问题，直接联系我就好啦。</p>
 
 <p>&#160; &#160; &#160; &#160;挖掘机技术哪家强！</p>
 ]]></content>
